@@ -2,9 +2,12 @@ name: Daily Auto Post to WordPress
 
 on:
   schedule:
-    # 매일 한국 시간 09:00, 12:00, 17:00, 20:00 실행 (UTC 기준 00:00, 03:00, 08:00, 11:00)
-    - cron: '0 0,3,8,11 * * *'
-  workflow_dispatch: # GitHub 웹 화면에서 'Run workflow' 버튼으로 즉시 수동 실행 가능
+    # 매일 한국 시간 09:05, 12:05, 17:05, 20:05 실행 (GitHub Actions 정각 트래픽 지연 방지 최적화)
+    - cron: '5 0 * * *'   # 09:05 KST (00:05 UTC)
+    - cron: '5 3 * * *'   # 12:05 KST (03:05 UTC)
+    - cron: '5 8 * * *'   # 17:05 KST (08:05 UTC)
+    - cron: '5 11 * * *'  # 20:05 KST (11:05 UTC)
+  workflow_dispatch: # GitHub 웹 화면에서 즉시 수동 실행 가능
 
 permissions:
   contents: write
