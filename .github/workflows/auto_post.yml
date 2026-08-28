@@ -1,13 +1,10 @@
-name: Daily Auto Post to WordPress
+name: 24/7 Smart Auto Post to WordPress
 
 on:
   schedule:
-    # 매일 한국 시간 09:05, 12:05, 17:05, 20:05 실행 (GitHub Actions 정각 트래픽 지연 방지 최적화)
-    - cron: '5 0 * * *'   # 09:05 KST (00:05 UTC)
-    - cron: '5 3 * * *'   # 12:05 KST (03:05 UTC)
-    - cron: '5 8 * * *'   # 17:05 KST (08:05 UTC)
-    - cron: '5 11 * * *'  # 20:05 KST (11:05 UTC)
-  workflow_dispatch: # GitHub 웹 화면에서 즉시 수동 실행 가능
+    # 20분마다 실행하여 GitHub 클라우드 러너를 항상 깨어있게 유지 (슬립/누락 완벽 방지)
+    - cron: '*/20 * * * *'
+  workflow_dispatch: # 웹에서 즉시 수동 실행 가능
 
 permissions:
   contents: write
@@ -30,20 +27,21 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: 워드프레스 자동 글 생성 및 포스팅 실행
+      - name: 24시간 스마트 스케줄러 실행 (9시, 12시, 17시, 20시 자동 감지)
         env:
           WP_URL: ${{ secrets.WP_URL }}
           WP_USER: ${{ secrets.WP_USER }}
           WP_APP_PASSWORD: ${{ secrets.WP_APP_PASSWORD }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           PYTHONIOENCODING: "utf-8"
+          GITHUB_EVENT_NAME: ${{ github.event_name }}
         run: |
-          python main.py --next --status publish
+          python smart_scheduler_runner.py
 
-      - name: 큐 진행 상태 저장 (Git Commit & Push)
+      - name: 진행 상태 저장 및 GitHub 동기화 (Commit & Push)
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add topics_queue.json
-          git diff --quiet && git diff --staged --quiet || git commit -m "chore: update topics queue [skip ci]"
+          git add topics_queue.json published_history.json
+          git diff --quiet && git diff --staged --quiet || git commit -m "chore: auto-update queue and history [skip ci]"
           git push
