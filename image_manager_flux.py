@@ -1,6 +1,6 @@
 """
-Modern Digital Illustration Generator using FLUX & Gemini
-Produces clean, refined, high-end editorial blog illustrations (not photorealistic).
+Korean 2D Webtoon / Comic Art Generator using FLUX & Gemini
+Produces clean, expressive 2D manhwa / comic book style illustrations (만화, 웹툰 그림 형태).
 """
 import urllib.parse
 import random
@@ -10,33 +10,32 @@ import time
 
 def fetch_flux_image_bytes(image_prompt_en: str) -> bytes:
     """
-    Generate and download high-resolution modern editorial illustration bytes.
+    Generate and download high-resolution Korean 2D webtoon / comic art bytes.
     """
     clean_prompt = image_prompt_en.strip()
     
-    # Modern clean editorial digital illustration styling
+    # Pure 2D Korean Webtoon / Manhwa comic art styling
     enhanced_prompt = (
-        f"{clean_prompt}, modern clean editorial digital illustration, "
-        f"refined clean vector aesthetic, warm soft pastel color palette, "
-        f"modern Korean editorial lifestyle art, elegant minimalist design, "
-        f"smooth gradient shading, crisp detailed lines, 4k resolution, "
-        f"sophisticated blog illustration, no realistic photo, no watermark, no text"
+        f"{clean_prompt}, Korean webtoon style 2D comic art, colored digital manhwa drawing, "
+        f"clean black line art, cel shaded 2D cartoon style, expressive relatable emotions, "
+        f"vibrant flat colors, high quality 2D webtoon illustration, full bleed scene, "
+        f"strictly no real photo, no 3D rendering, no physical book, no text"
     )
     
     seed = random.randint(1000, 999999)
     encoded = urllib.parse.quote(enhanced_prompt)
     flux_url = f"https://image.pollinations.ai/prompt/{encoded}?model=flux&width=1024&height=576&nologo=true&seed={seed}"
     
-    print(f"🎨 [세련된 에디토리얼 일러스트 생성 중...] {image_prompt_en[:80]}...")
+    print(f"🎨 [2D 웹툰/만화 스타일 이미지 생성 중...] {image_prompt_en[:80]}...")
     
     for attempt in range(3):
         try:
             res = requests.get(flux_url, timeout=30)
             if res.status_code == 200 and len(res.content) > 5000:
-                print(f"✅ 고화질 일러스트 다운로드 성공 ({len(res.content)} bytes)")
+                print(f"✅ 2D 웹툰 일러스트 다운로드 성공 ({len(res.content)} bytes)")
                 return res.content
         except Exception as e:
-            print(f"⚠️ 일러스트 다운로드 시도 {attempt+1} 실패: {e}")
+            print(f"⚠️ 웹툰 이미지 다운로드 시도 {attempt+1} 실패: {e}")
             time.sleep(2)
             
     # Fallback if service times out
