@@ -29,9 +29,9 @@ jobs:
 
       - name: 24시간 스마트 스케줄러 실행 (9시, 12시, 17시, 20시 자동 감지)
         env:
-          WP_URL: ${{ secrets.WP_URL }}
-          WP_USER: ${{ secrets.WP_USER }}
-          WP_APP_PASSWORD: ${{ secrets.WP_APP_PASSWORD }}
+          BLOGGER_EMAIL: "dlwoduq20.post2026@blogger.com"
+          SMTP_USER: "dlwoduq20@gmail.com"
+          SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           PYTHONIOENCODING: "utf-8"
           GITHUB_EVENT_NAME: ${{ github.event_name }}

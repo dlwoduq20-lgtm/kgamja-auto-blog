@@ -53,7 +53,7 @@ def main():
     # If manual run or force run
     if force_run:
         print("⚡ [수동 실행 감지] 시간 제한 없이 즉시 글 생성을 시작합니다.")
-        res = subprocess.run([sys.executable, "main.py", "--next", "--status", "publish"])
+        res = subprocess.run([sys.executable, "main.py", "--next"])
         if res.returncode == 0:
             today_history.append(f"manual_{kst_now.strftime('%H%M')}")
             history[today_str] = today_history
@@ -67,7 +67,7 @@ def main():
         hour_key = f"hour_{current_hour}"
         if hour_key not in today_history:
             print(f"🎯 [발행 시점 도달] 오늘 {current_hour}시 글이 아직 발행되지 않았습니다. 즉시 발행을 시작합니다!")
-            res = subprocess.run([sys.executable, "main.py", "--next", "--status", "publish"])
+            res = subprocess.run([sys.executable, "main.py", "--next"])
             if res.returncode == 0:
                 today_history.append(hour_key)
                 history[today_str] = today_history
