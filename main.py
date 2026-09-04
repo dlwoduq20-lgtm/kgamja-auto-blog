@@ -57,6 +57,18 @@ def process_topic(topic: str):
     print(f"\n🚀 [2/3] FLUX 2D 웹툰/만화 스타일 고화질 일러스트 생성 중...")
     image_bytes = fetch_flux_image_bytes(image_prompt_en)
 
+    # Google SEO JSON-LD Schema Markup
+    schema_ld = {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": title,
+        "description": excerpt,
+        "articleSection": category,
+        "keywords": tags,
+        "mainEntityOfPage": {"@type": "WebPage"}
+    }
+    content_html += f"\n<script type=\"application/ld+json\">\n{json.dumps(schema_ld, ensure_ascii=False, indent=2)}\n</script>\n"
+
     # 3. Publish to Google Blogger via official REST API v3
     print(f"\n🚀 [3/3] 구글 블로거 공식 REST API v3로 글 및 2D 웹툰 일러스트 즉시 등록 중...")
     result = publish_blogger_post(

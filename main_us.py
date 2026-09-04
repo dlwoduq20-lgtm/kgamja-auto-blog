@@ -1,4 +1,4 @@
-﻿'''
+'''
 Main CLI Runner for US/Global B2B SaaS Software Review & Comparison Blog
 Publishes deep, high-converting buyer guides with modern 2D tech graphics via Google Blogger API v3.
 '''
@@ -59,6 +59,38 @@ def process_topic_us(item: dict):
     # 2. Fetch 2D Tech Illustration Bytes
     print(f"\n🚀 [2/3] Generating modern 2D vector tech illustration via FLUX...")
     image_bytes = fetch_saas_image_bytes(image_prompt_en)
+
+    # Inject JSON-LD Schema for Google Rich Snippets (BlogPosting & FAQPage)
+    schema_entities = [
+        {
+            "@context": "https://schema.org",
+            "@type": "BlogPosting",
+            "headline": title,
+            "description": excerpt,
+            "mainEntityOfPage": {
+                "@type": "WebPage"
+            }
+        }
+    ]
+    if article.get("faq_schema"):
+        schema_entities.append({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": [
+                {
+                    "@type": "Question",
+                    "name": item.get("question"),
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": item.get("answer")
+                    }
+                }
+                for item in article["faq_schema"]
+            ]
+        })
+
+    for s in schema_entities:
+        content_html += f"\n<script type=\"application/ld+json\">\n{json.dumps(s, ensure_ascii=False, indent=2)}\n</script>\n"
 
     # 3. Publish to US Blogger via official REST API v3
     print(f"\n🚀 [3/3] Publishing to US Google Blogger via official REST API v3 (Blog ID: {BLOG_ID_US})...")
