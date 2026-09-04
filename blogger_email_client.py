@@ -17,6 +17,7 @@ def send_post_via_email(
     content_html: str,
     tags: list,
     image_bytes: bytes = None,
+    recipient_email: str = None,
     smtp_user: str = None,
     smtp_password: str = None,
     smtp_server: str = "smtp.gmail.com",
@@ -25,6 +26,7 @@ def send_post_via_email(
     """
     Send blog post to Blogger secret email using SMTP with CID image attachment.
     """
+    target_email = recipient_email or os.environ.get("BLOGGER_EMAIL", BLOGGER_EMAIL)
     smtp_user = smtp_user or os.environ.get("SMTP_USER", "dlwoduq20@gmail.com")
     smtp_password = smtp_password or os.environ.get("SMTP_PASSWORD")
 
@@ -36,7 +38,7 @@ def send_post_via_email(
         image_html = f"""
 <div style="text-align: center; margin: 30px auto; max-width: 720px;">
   <img src="cid:post_image" alt="{title}" style="width: 100%; height: auto; border-radius: 10px; box-shadow: 0 4px 16px rgba(0,0,0,0.12);" />
-  <p style="color: #777; font-size: 13px; margin-top: 8px; text-align: center;">▲ {title} 관련 실사 안내 사진</p>
+  <p style="color: #777; font-size: 13px; margin-top: 8px; text-align: center;">▲ {title}</p>
 </div>
 """
         first_p = content_html.find("</p>")
@@ -48,12 +50,12 @@ def send_post_via_email(
 
     # 2. Tags formatting for Blogger
     tags_formatted = " ".join([f"#{t.replace(' ', '')}" for t in tags]) if tags else ""
-    full_html_content = f"{content_html}\n<p style='margin-top: 30px; color: #888;'>태그: {tags_formatted}</p>"
+    full_html_content = f"{content_html}\n<p style='margin-top: 30px; color: #888;'>タグ: {tags_formatted}</p>"
 
     # 3. Create multipart message
     msg = MIMEMultipart("related")
     msg["From"] = smtp_user
-    msg["To"] = BLOGGER_EMAIL
+    msg["To"] = target_email
     msg["Subject"] = title
 
     part_html = MIMEText(full_html_content, "html", "utf-8")
@@ -65,7 +67,7 @@ def send_post_via_email(
         img_part.add_header("Content-ID", "<post_image>")
         img_part.add_header("Content-Disposition", "inline", filename="featured_image.jpg")
         msg.attach(img_part)
-        print(f"📎 실사 이미지 CID 파일 첨부 완료 ({len(image_bytes)} bytes)")
+        print(f"📎 2D 만화 이미지 CID 파일 첨부 완료 ({len(image_bytes)} bytes)")
 
     try:
         if smtp_port == 465:
@@ -75,11 +77,11 @@ def send_post_via_email(
             server.starttls()
 
         server.login(smtp_user, smtp_password)
-        server.sendmail(smtp_user, [BLOGGER_EMAIL], msg.as_string())
+        server.sendmail(smtp_user, [target_email], msg.as_string())
         server.quit()
 
-        print(f"📧 이메일 발송 성공 -> {BLOGGER_EMAIL} (제목: {title})")
-        return {"success": True, "title": title, "recipient": BLOGGER_EMAIL}
+        print(f"📧 이메일 발송 성공 -> {target_email} (제목: {title})")
+        return {"success": True, "title": title, "recipient": target_email}
     except Exception as e:
         print(f"⚠️ 이메일 발송 실패: {e}")
         return {"success": False, "error": str(e)}
