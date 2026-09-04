@@ -1,0 +1,212 @@
+[
+  {
+    "id": 1,
+    "category": "CRM & Sales",
+    "keyword": "Best CRM for Small Business",
+    "topic": "Best CRM Software for Small Business: 7 Platforms Compared (2026)",
+    "status": "done"
+  },
+  {
+    "id": 2,
+    "category": "Accounting & Finance",
+    "keyword": "Best Accounting Software for Freelancers",
+    "topic": "Top 6 Accounting Software for Freelancers and Solopreneurs: In-Depth Comparison",
+    "status": "pending"
+  },
+  {
+    "id": 3,
+    "category": "Project Management",
+    "keyword": "Best Project Management Tools for Remote Teams",
+    "topic": "ClickUp vs Monday vs Asana: Best Project Management Tools for Remote Teams in 2026",
+    "status": "pending"
+  },
+  {
+    "id": 4,
+    "category": "Email Marketing",
+    "keyword": "Best Email Marketing Software for E-commerce",
+    "topic": "Best Email Marketing Platforms for E-commerce: Klaviyo vs Mailchimp vs ActiveCampaign",
+    "status": "pending"
+  },
+  {
+    "id": 5,
+    "category": "HR & Payroll",
+    "keyword": "Best Payroll Software for Small Business",
+    "topic": "Gusto vs Rippling vs BambooHR: Best Payroll & HR Platforms for Startups (2026)",
+    "status": "pending"
+  },
+  {
+    "id": 6,
+    "category": "E-Commerce",
+    "keyword": "Best E-Commerce Platforms for Small Business",
+    "topic": "Shopify vs WooCommerce vs BigCommerce: Which Online Store Builder Wins in 2026?",
+    "status": "pending"
+  },
+  {
+    "id": 7,
+    "category": "Customer Support",
+    "keyword": "Best Helpdesk Software for Customer Support",
+    "topic": "Best Customer Support Helpdesk Software: Zendesk vs Freshdesk vs Help Scout",
+    "status": "pending"
+  },
+  {
+    "id": 8,
+    "category": "Productivity & Wiki",
+    "keyword": "Best Knowledge Base Software for Teams",
+    "topic": "Notion vs Confluence vs Slab: Best Team Knowledge Base & Documentation Tools",
+    "status": "pending"
+  },
+  {
+    "id": 9,
+    "category": "Contracts & Signatures",
+    "keyword": "Best E-Signature Software for Small Business",
+    "topic": "DocuSign vs PandaDoc vs Dropbox Sign: Best Electronic Signature Tools Compared",
+    "status": "pending"
+  },
+  {
+    "id": 10,
+    "category": "SEO & Marketing",
+    "keyword": "Best SEO Tools for Small Business Marketing",
+    "topic": "Semrush vs Ahrefs vs SE Ranking: Honest Review of the Top SEO Suites for 2026",
+    "status": "pending"
+  },
+  {
+    "id": 11,
+    "category": "Time Tracking",
+    "keyword": "Best Time Tracking Software for Teams",
+    "topic": "Toggl vs Clockify vs Harvest: Best Time Tracking and Billing Apps for Agencies",
+    "status": "pending"
+  },
+  {
+    "id": 12,
+    "category": "VoIP & Phone Systems",
+    "keyword": "Best Virtual Phone System for Small Business",
+    "topic": "Nextiva vs RingCentral vs Dialpad: Top Business VoIP Phone Systems Evaluated",
+    "status": "pending"
+  },
+  {
+    "id": 13,
+    "category": "Appointment Scheduling",
+    "keyword": "Best Meeting Scheduling Apps",
+    "topic": "Calendly vs Acuity Scheduling: Best Automated Booking Software for Professionals",
+    "status": "pending"
+  },
+  {
+    "id": 14,
+    "category": "Expense Management",
+    "keyword": "Best Expense Management Software for Startups",
+    "topic": "Ramp vs Brex vs Expensify: Best Corporate Cards & Automated Expense Tracking",
+    "status": "pending"
+  },
+  {
+    "id": 15,
+    "category": "Field Service",
+    "keyword": "Best Field Service Management Software",
+    "topic": "Jobber vs Housecall Pro vs ServiceTitan: Best Software for Service Contractors",
+    "status": "pending"
+  },
+  {
+    "id": 16,
+    "category": "Website Builders",
+    "keyword": "Best Website Builders for Small Business",
+    "topic": "Squarespace vs Wix vs Webflow: Which Website Builder Is Actually Best for Business?",
+    "status": "pending"
+  },
+  {
+    "id": 17,
+    "category": "Social Media",
+    "keyword": "Best Social Media Management Tools",
+    "topic": "Buffer vs Hootsuite vs Sprout Social: Best Social Media Schedulers for Small Teams",
+    "status": "pending"
+  },
+  {
+    "id": 18,
+    "category": "Recruiting & ATS",
+    "keyword": "Best Applicant Tracking System for Small Business",
+    "topic": "Workable vs Breezy HR vs Lever: Best Recruiting and Hiring Software for Growing Teams",
+    "status": "pending"
+  },
+  {
+    "id": 19,
+    "category": "Cybersecurity",
+    "keyword": "Best Password Manager for Businesses",
+    "topic": "1Password vs Bitwarden for Business: Which Team Password Manager Is Safer?",
+    "status": "pending"
+  },
+  {
+    "id": 20,
+    "category": "Point of Sale (POS)",
+    "keyword": "Best POS System for Retail and Restaurants",
+    "topic": "Square POS vs Clover vs Toast: Best Point of Sale Systems Compared for 2026",
+    "status": "pending"
+  },
+  {
+    "id": 21,
+    "category": "Inventory Management",
+    "keyword": "Best Inventory Management Software for E-commerce",
+    "topic": "Katana vs Cin7 vs Sortly: Best Cloud Inventory & Order Management Tools",
+    "status": "pending"
+  },
+  {
+    "id": 22,
+    "category": "Forms & Surveys",
+    "keyword": "Best Online Form Builders for Lead Generation",
+    "topic": "Typeform vs Jotform vs Fillout: Best Interactive Form Builders to Boost Conversions",
+    "status": "pending"
+  },
+  {
+    "id": 23,
+    "category": "Billing & Invoicing",
+    "keyword": "Best Invoicing Software for Consultants",
+    "topic": "HoneyBook vs Bonsai vs FreshBooks: Best All-in-One Client Management Tools",
+    "status": "pending"
+  },
+  {
+    "id": 24,
+    "category": "Cloud Backup & Storage",
+    "keyword": "Best Cloud Storage for Business Collaboration",
+    "topic": "Google Workspace vs Microsoft 365 vs Dropbox Business: Full Suite Comparison",
+    "status": "pending"
+  },
+  {
+    "id": 25,
+    "category": "AI Productivity",
+    "keyword": "Best AI Tools for Business Automation",
+    "topic": "Top 7 AI Automation Tools Every Small Business Should Implement in 2026",
+    "status": "pending"
+  },
+  {
+    "id": 26,
+    "category": "Video Marketing",
+    "keyword": "Best AI Video Generators for Marketing",
+    "topic": "Descript vs Synthesia vs InVideo: Best AI Video Creation Software for Brands",
+    "status": "pending"
+  },
+  {
+    "id": 27,
+    "category": "Fleet & Asset Tracking",
+    "keyword": "Best GPS Fleet Tracking Software",
+    "topic": "Samsara vs Motive vs Verizon Connect: Best Fleet Management Systems for 2026",
+    "status": "pending"
+  },
+  {
+    "id": 28,
+    "category": "Landing Pages",
+    "keyword": "Best Landing Page Builders for High Conversion",
+    "topic": "Unbounce vs Leadpages vs Instapage: Which Landing Page Creator Converts Best?",
+    "status": "pending"
+  },
+  {
+    "id": 29,
+    "category": "Community Platforms",
+    "keyword": "Best Community Platforms for Creators and Brands",
+    "topic": "Skool vs Circle vs Mighty Networks: Best Paid Community & Course Software",
+    "status": "pending"
+  },
+  {
+    "id": 30,
+    "category": "Payment Gateways",
+    "keyword": "Best Payment Processors for Online Business",
+    "topic": "Stripe vs PayPal vs Authorize.net: Best Online Payment Processing Fees Compared",
+    "status": "pending"
+  }
+]
