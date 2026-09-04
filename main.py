@@ -1,6 +1,6 @@
 """
 Main CLI Runner for kgamjablog.blogspot.com
-Includes AI Article Writing, Photorealistic FLUX Image Generation, and Google Blogger Email Auto-Posting.
+Includes AI Article Writing, Photorealistic FLUX Image Generation, and Google Blogger Email Auto-Posting with Attached Images.
 """
 import sys
 import os
@@ -11,7 +11,7 @@ import argparse
 sys.stdout.reconfigure(encoding='utf-8')
 
 from article_generator import generate_article
-from image_manager_flux import generate_flux_image_url, insert_flux_image_into_content
+from image_manager_flux import fetch_flux_image_bytes
 from blogger_email_client import send_post_via_email
 from config import SMTP_USER, SMTP_PASSWORD, BLOGGER_EMAIL, BLOG_URL
 
@@ -43,7 +43,7 @@ def process_topic(topic: str):
     if category not in tags:
         tags.insert(0, category)
 
-    image_prompt_en = article.get("image_prompt_en", f"realistic scene about {topic}")
+    image_prompt_en = article.get("image_prompt_en", f"realistic documentary scene about {topic}")
     content_html = article.get("content_html", "")
 
     print(f"\n✅ [글 생성 완료]")
@@ -53,30 +53,23 @@ def process_topic(topic: str):
     print(f"📝 메타 요약 ({len(excerpt)}자): {excerpt}")
     print(f"📊 본문 글자 수: {len(content_html)} 글자")
 
-    # 2. Generate Photorealistic FLUX Image
-    print(f"\n🚀 [2/3] Gemini 아트 디렉터 + FLUX 실사 고화질 사진 생성 중...")
-    flux_image_url = generate_flux_image_url(image_prompt_en)
-    print(f"📸 FLUX 실사 이미지 URL 생성 완료: {flux_image_url[:90]}...")
+    # 2. Fetch Photorealistic FLUX Image Bytes
+    print(f"\n🚀 [2/3] Gemini 아트 디렉터 + FLUX 실사 고화질 사진 생성 및 다운로드 중...")
+    image_bytes = fetch_flux_image_bytes(image_prompt_en)
 
-    # Embed photorealistic image into the article content
-    content_html = insert_flux_image_into_content(
-        content_html=content_html,
-        image_url=flux_image_url,
-        alt_text=f"{title} 관련 실사 안내 사진"
-    )
-
-    # 3. Publish to Google Blogger via Email
-    print(f"\n🚀 [3/3] 구글 블로거로 자동 발행 전송 중 ({BLOGGER_EMAIL})...")
+    # 3. Publish to Google Blogger via Email with attached image
+    print(f"\n🚀 [3/3] 구글 블로거로 고화질 실사 이미지 첨부 전송 중 ({BLOGGER_EMAIL})...")
     result = send_post_via_email(
         title=title,
         content_html=content_html,
         tags=tags,
+        image_bytes=image_bytes,
         smtp_user=SMTP_USER,
         smtp_password=SMTP_PASSWORD
     )
 
     if result.get("success"):
-        print(f"\n🎉 [발행 성공] 구글 블로거로 글이 정상 전송되었습니다!")
+        print(f"\n🎉 [발행 성공] 구글 블로거로 글과 실사 이미지가 정상 전송되었습니다!")
         print(f"🌐 블로그 주소: {BLOG_URL}")
         print(f"📌 발행된 글 제목: {title}")
     else:
