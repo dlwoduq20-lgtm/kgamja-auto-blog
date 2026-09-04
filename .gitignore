@@ -3,3 +3,13 @@ __pycache__/
 .env
 output/
 scheduler_log.txt
+blogger_credentials.json
+oauth_url.txt
+*.jpg
+*.png
+verify_blogs.py
+test_publish_kr.py
+post_dump.html
+set_github_secret.py
+
+

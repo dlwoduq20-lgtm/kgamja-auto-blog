@@ -12,11 +12,10 @@ sys.stdout.reconfigure(encoding='utf-8')
 
 from article_generator_jp import generate_article_jp
 from image_manager_flux import fetch_flux_image_bytes
-from blogger_email_client import send_post_via_email
-from config import SMTP_USER, SMTP_PASSWORD
+from blogger_client import publish_blogger_post, BLOG_ID_JP
 
 QUEUE_FILE_JP = "topics_queue_jp.json"
-BLOGGER_EMAIL_JP = os.environ.get("BLOGGER_EMAIL_JP", "dlwoduq20.jp2026@blogger.com")
+BLOG_URL_JP = "https://seikatsulaw.blogspot.com"
 
 
 def load_queue_jp():
@@ -58,20 +57,20 @@ def process_topic_jp(topic: str):
     print(f"\n🚀 [2/3] 2Dマンガスタイルイラスト生成＆ダウンロード中...")
     image_bytes = fetch_flux_image_bytes(image_prompt_en)
 
-    # 3. Publish to Japanese Blogger via Email
-    print(f"\n🚀 [3/3] 日本ブログへ送信中 ({BLOGGER_EMAIL_JP})...")
-    result = send_post_via_email(
+    # 3. Publish to Japanese Blogger via official REST API v3
+    print(f"\n🚀 [3/3] Google Blogger 公式 REST API v3で記事＆2Dマンガイラストを直接投稿中...")
+    result = publish_blogger_post(
         title=title,
         content_html=content_html,
-        tags=tags,
+        labels=tags,
         image_bytes=image_bytes,
-        recipient_email=BLOGGER_EMAIL_JP,
-        smtp_user=SMTP_USER,
-        smtp_password=SMTP_PASSWORD
+        blog_id=BLOG_ID_JP
     )
 
     if result.get("success"):
         print(f"\n🎉 [投稿成功] 日本のブログへ記事が正常に公開されました！")
+        print(f"🌐 ブログURL: {BLOG_URL_JP}")
+        print(f"📌 記事URL: {result.get('post_url')}")
         print(f"📌 タイトル: {title}")
     else:
         print(f"⚠️ 投稿失敗: {result.get('error')}")

@@ -12,8 +12,8 @@ sys.stdout.reconfigure(encoding='utf-8')
 
 from article_generator import generate_article
 from image_manager_flux import fetch_flux_image_bytes
-from blogger_email_client import send_post_via_email
-from config import SMTP_USER, SMTP_PASSWORD, BLOGGER_EMAIL, BLOG_URL
+from blogger_client import publish_blogger_post, BLOG_ID_KR
+from config import BLOG_URL
 
 QUEUE_FILE = "topics_queue.json"
 
@@ -31,8 +31,8 @@ def save_queue(queue):
 
 
 def process_topic(topic: str):
-    print(f"\n🚀 [1/3] AI 글 및 실사 이미지 기획 시작: '{topic}'")
-    print("⏳ Gemini 모델로 1인칭 공감형 칼럼, 구글 SEO 최적화 본문, 실사 사진 프롬프트 생성 중...")
+    print(f"\n🚀 [1/3] AI 글 및 2D 웹툰 일러스트 기획 시작: '{topic}'")
+    print("⏳ Gemini 모델로 1인칭 공감형 칼럼, 구글 SEO 최적화 본문, 2D 웹툰 만화 프롬프트 생성 중...")
     
     article = generate_article(topic)
     
@@ -43,7 +43,7 @@ def process_topic(topic: str):
     if category not in tags:
         tags.insert(0, category)
 
-    image_prompt_en = article.get("image_prompt_en", f"realistic documentary scene about {topic}")
+    image_prompt_en = article.get("image_prompt_en", f"Korean webtoon style 2D drawing about {topic}")
     content_html = article.get("content_html", "")
 
     print(f"\n✅ [글 생성 완료]")
@@ -53,24 +53,24 @@ def process_topic(topic: str):
     print(f"📝 메타 요약 ({len(excerpt)}자): {excerpt}")
     print(f"📊 본문 글자 수: {len(content_html)} 글자")
 
-    # 2. Fetch Photorealistic FLUX Image Bytes
-    print(f"\n🚀 [2/3] Gemini 아트 디렉터 + FLUX 실사 고화질 사진 생성 및 다운로드 중...")
+    # 2. Fetch 2D Webtoon Comic Art Bytes
+    print(f"\n🚀 [2/3] FLUX 2D 웹툰/만화 스타일 고화질 일러스트 생성 중...")
     image_bytes = fetch_flux_image_bytes(image_prompt_en)
 
-    # 3. Publish to Google Blogger via Email with attached image
-    print(f"\n🚀 [3/3] 구글 블로거로 고화질 실사 이미지 첨부 전송 중 ({BLOGGER_EMAIL})...")
-    result = send_post_via_email(
+    # 3. Publish to Google Blogger via official REST API v3
+    print(f"\n🚀 [3/3] 구글 블로거 공식 REST API v3로 글 및 2D 웹툰 일러스트 즉시 등록 중...")
+    result = publish_blogger_post(
         title=title,
         content_html=content_html,
-        tags=tags,
+        labels=tags,
         image_bytes=image_bytes,
-        smtp_user=SMTP_USER,
-        smtp_password=SMTP_PASSWORD
+        blog_id=BLOG_ID_KR
     )
 
     if result.get("success"):
-        print(f"\n🎉 [발행 성공] 구글 블로거로 글과 실사 이미지가 정상 전송되었습니다!")
+        print(f"\n🎉 [발행 성공] 구글 블로거로 글과 2D 웹툰 일러스트가 정상 발행되었습니다!")
         print(f"🌐 블로그 주소: {BLOG_URL}")
+        print(f"📌 포스팅 URL: {result.get('post_url')}")
         print(f"📌 발행된 글 제목: {title}")
     else:
         print(f"⚠️ 발행 실패: {result.get('error')}")
