@@ -1,5 +1,5 @@
 """
-Article Generator using Gemini API with reliable model list
+Article Generator using Gemini API with reliable flash models and retry backoff
 """
 import json
 import re
@@ -12,14 +12,14 @@ from prompt_template import SYSTEM_PROMPT
 MODELS = [
     "gemini-3.1-flash-lite",
     "gemini-3-flash-preview",
-    "gemini-3.1-pro-preview",
-    "gemini-3.6-flash"
+    "gemini-2.5-flash",
+    "gemini-2.5-flash-lite"
 ]
 
 
 def generate_article(topic: str) -> dict:
     """
-    Generate a full SEO-optimized article matching kgamjablog.blog's DNA.
+    Generate a full SEO-optimized article matching kgamjablog's DNA.
     """
     if not GEMINI_API_KEY:
         raise ValueError("GEMINI_API_KEY is not set.")
@@ -29,30 +29,31 @@ def generate_article(topic: str) -> dict:
 
     last_error = None
     for model_name in MODELS:
-        try:
-            response = client.models.generate_content(
-                model=model_name,
-                contents=user_prompt,
-                config=types.GenerateContentConfig(
-                    system_instruction=SYSTEM_PROMPT,
-                    temperature=0.7,
-                    response_mime_type="application/json"
-                )
-            )
-
-            raw_text = response.text.strip()
+        for attempt in range(2):
             try:
-                data = json.loads(raw_text)
-                return data
-            except Exception:
-                json_match = re.search(r'\{.*\}', raw_text, re.DOTALL)
-                if json_match:
-                    return json.loads(json_match.group(0))
-                raise ValueError(f"Invalid JSON response")
+                response = client.models.generate_content(
+                    model=model_name,
+                    contents=user_prompt,
+                    config=types.GenerateContentConfig(
+                        system_instruction=SYSTEM_PROMPT,
+                        temperature=0.7,
+                        response_mime_type="application/json"
+                    )
+                )
 
-        except Exception as e:
-            last_error = e
-            print(f"⚠️ {model_name} 일시적 문제 발생: {e}. 다음 모델 시도 중...")
-            time.sleep(1)
+                raw_text = response.text.strip()
+                try:
+                    data = json.loads(raw_text)
+                    return data
+                except Exception:
+                    json_match = re.search(r'\{.*\}', raw_text, re.DOTALL)
+                    if json_match:
+                        return json.loads(json_match.group(0))
+                    raise ValueError(f"Invalid JSON response")
+
+            except Exception as e:
+                last_error = e
+                print(f"⚠️ {model_name} (시도 {attempt+1}) 일시적 오류: {e}. 잠시 후 재시도...")
+                time.sleep(2)
 
     raise RuntimeError(f"All models failed to generate article: {last_error}")
