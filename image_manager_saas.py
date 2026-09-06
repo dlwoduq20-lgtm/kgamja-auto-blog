@@ -1,4 +1,4 @@
-﻿'''
+'''
 B2B SaaS 2D Tech Illustration & Modern Vector Graphic Generator using FLUX
 Produces clean, modern vector/isometric software visuals (no real brand logos, professional aesthetic).
 '''
@@ -23,26 +23,46 @@ def fetch_saas_image_bytes(image_prompt_en: str) -> bytes:
     
     seed = random.randint(1000, 999999)
     encoded = urllib.parse.quote(enhanced_prompt)
-    flux_url = f"https://image.pollinations.ai/prompt/{encoded}?model=flux&width=1024&height=576&nologo=true&seed={seed}"
-    
-    print(f"🎨 [Generating 2D SaaS Tech Illustration...] {image_prompt_en[:80]}...")
-    
-    for attempt in range(3):
+    print(f"[2D SaaS Illustration] Generating: {clean_prompt[:70]}...")
+
+    configs = [
+        {"model": "flux", "timeout": 45},
+        {"model": None, "timeout": 40},
+        {"model": None, "timeout": 40}
+    ]
+
+    for attempt, cfg in enumerate(configs, 1):
+        seed = random.randint(1000, 999999)
+        if cfg["model"]:
+            url = f"https://image.pollinations.ai/prompt/{encoded}?model={cfg['model']}&width=1024&height=576&nologo=true&seed={seed}"
+        else:
+            url = f"https://image.pollinations.ai/prompt/{encoded}?width=1024&height=576&nologo=true&seed={seed}"
+
         try:
-            res = requests.get(flux_url, timeout=30)
+            res = requests.get(url, timeout=cfg["timeout"])
             if res.status_code == 200 and len(res.content) > 5000:
-                print(f"✅ 2D Tech Illustration downloaded successfully ({len(res.content)} bytes)")
+                print(f"[OK] 2D Tech Illustration downloaded ({len(res.content)} bytes, attempt {attempt})")
                 return res.content
+            elif res.status_code == 429:
+                print(f"[Wait] Pollinations rate limit (429)... waiting 10s")
+                time.sleep(10)
+            else:
+                print(f"[Warning] Tech Illustration attempt {attempt} HTTP {res.status_code}")
+                time.sleep(3)
         except Exception as e:
-            print(f"⚠️ Image download attempt {attempt+1} failed: {e}")
-            time.sleep(2)
-            
+            print(f"[Warning] Tech Illustration attempt {attempt} error: {e}")
+            time.sleep(3)
+
     # Fallback
+    print("[Fallback] Loading fallback tech illustration...")
     try:
-        fallback_res = requests.get("https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1024&h=576&fit=crop&q=80", timeout=15)
+        fallback_res = requests.get(
+            "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1024&h=576&fit=crop&q=80",
+            timeout=15
+        )
         if fallback_res.status_code == 200:
             return fallback_res.content
     except Exception:
         pass
-        
+
     return None

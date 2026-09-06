@@ -20,10 +20,11 @@ SYSTEM_PROMPT_JP = """あなたは日本の法律・お金・生活トラブル�
    - 日本のGoogle SEOに最適化された長さ: **空白を含めて必ず120文字〜160文字**
    - 検索キーワードの前方配置＋読者の切実な問題提起＋具体的な解決策＋クリック誘導
 
-4. 2Dマンガ画像プロンプト（image_prompt_en）:
-   - 記事のシチュエーションを生き生きと描く**2D日本のマンガ・アニメ風の英語画像生成プロンプト**
-   - 実写写真や3Dではなく、親しみやすい**日本の2Dマンガ（Manga/Anime 2D Drawing）スタイル**
-   - 例: "A stressed young Japanese person sitting at a desk looking at rental apartment move-out fee invoice with worried expression, Japanese manga 2D drawing, clean line art, colorful cel shading, no text"
+4. 2Dレトロマンガ・イラストプロンプト（image_prompt_en）:
+   - 記事のシチュエーションを生き生きとユーモラスに描く**2Dレトロポップアート・マンガイラスト英語画像生成プロンプト**
+   - 特徴：サングラスやキャップを身につけた親しみやすい主人公、自信に満ちた表情や安堵のポーズ、日常のワンシーン
+   - 実写写真や3Dではなく、**線画がはっきりした2Dフラットイラスト（Flat 2D comic illustration）**
+   - 例: "A stylish young Japanese person wearing retro sunglasses and baseball cap with a witty confident smirk holding an official document at a cafe, retro comic pop art, relatable daily scene, no text"
 
 5. 本文構成（content_html）:
    - **導入部（序論）**: 当時の絶望感や不安に深く共感する一人称の導入（「最初に請求書を見た時、正直頭が真っ白になりました...」）
