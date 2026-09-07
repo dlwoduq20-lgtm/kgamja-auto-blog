@@ -14,9 +14,9 @@ from article_generator_garden import generate_article_garden
 from blogger_client import publish_blogger_post
 
 QUEUE_FILE_GARDEN = "topics_queue_garden.json"
-# Default to 7660224841635651796 or BLOG_ID_GARDEN environment variable
-DEFAULT_BLOG_ID_GARDEN = "7660224841635651796"
+DEFAULT_BLOG_ID_GARDEN = "7758791627533733698"
 BLOG_ID_GARDEN = os.environ.get("BLOG_ID_GARDEN", DEFAULT_BLOG_ID_GARDEN)
+BLOG_URL_GARDEN = "https://greenthumb-garden.blogspot.com"
 
 
 def load_queue_garden():
@@ -77,6 +77,7 @@ def process_topic_garden(keyword: str, topic_angle: str = "", queue=None):
 
     if result.get("success"):
         print(f"\n🎉 [Publish Success] Home & Garden article successfully published!")
+        print(f"🌐 Blog URL: {BLOG_URL_GARDEN}")
         print(f"📌 Post URL: {result.get('post_url')}")
         print(f"📌 Post Title: {h1}")
     else:
