@@ -12,27 +12,43 @@ import requests
 import time
 
 STYLE_BLOCK = (
-    "Flat vector illustration style, modern editorial children's-book aesthetic. "
-    "Soft pastel color palette, dusty sky blue, warm terracotta rust, olive and sage green, cream and light tan. "
-    "Simple rounded character shapes with minimal facial detail, warm approachable expressions. "
-    "Gentle gradient sky background with soft rounded clouds, rolling hills in background. "
-    "Clean geometric shapes, no harsh outlines, soft warm sunlight glow. "
-    "Strictly 2D flat vector art, no 3D rendering, no photorealism, no text, no logos, no watermarks."
+    "flat vector illustration style, modern editorial gardening children's-book aesthetic, "
+    "soft pastel color palette with warm terracotta, olive and sage green, cream, and dusty sky blue, "
+    "simple rounded character shapes with warm approachable expressions, "
+    "clean geometric vector shapes, gentle warm sunlight glow, "
+    "strictly 2D flat vector art, no 3D rendering, no photorealism, no text, no logos, no watermarks, no barren empty landscape"
 )
 
 
 def fetch_garden_image_bytes(generation_prompt: str) -> bytes:
     '''
     Generate and download high-resolution pastel flat vector garden illustration bytes.
+    Ensures the specific crops and gardening subject are in the foreground.
     '''
     clean_prompt = generation_prompt.strip()
-    if "Flat vector illustration style" not in clean_prompt:
-        final_prompt = f"{clean_prompt}. {STYLE_BLOCK}"
+    
+    # Strip any leading style block prefix to guarantee subject comes FIRST
+    lower_prompt = clean_prompt.lower()
+    if lower_prompt.startswith("flat vector illustration style"):
+        # Find where the scene detail was appended
+        markers = ["no brand references.", "no text.", "aesthetic."]
+        extracted_subject = ""
+        for marker in markers:
+            if marker in lower_prompt:
+                idx = lower_prompt.find(marker) + len(marker)
+                extracted_subject = clean_prompt[idx:].strip(" .-,")
+                break
+        if extracted_subject:
+            final_prompt = f"{extracted_subject}, clear foreground focus on organic vegetables and plants, {STYLE_BLOCK}"
+        else:
+            final_prompt = f"{clean_prompt}, {STYLE_BLOCK}"
+    elif "flat vector illustration style" not in lower_prompt:
+        final_prompt = f"{clean_prompt}, clear foreground focus on organic vegetables and plants, {STYLE_BLOCK}"
     else:
         final_prompt = clean_prompt
 
     encoded = urllib.parse.quote(final_prompt)
-    print(f"[Garden Illust] Generating: {clean_prompt[:70]}...")
+    print(f"[Garden Illust] Generating: {final_prompt[:80]}...")
 
     configs = [
         {"model": None, "timeout": 35},

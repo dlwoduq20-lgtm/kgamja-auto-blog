@@ -39,17 +39,22 @@ REQUIREMENTS:
    - Include 2-3 internal link anchor text suggestions (topically related)
    - Include 2-3 outbound links to authoritative sources (university extension offices, USDA, RHS) — list as suggested links with reason
 
-3. IMAGE PLACEMENT — STYLE-LOCKED TO REFERENCE ILLUSTRATION
+3. IMAGE PLACEMENT — DIRECT SUBJECT FOCUS & STYLE-LOCKED
    Return an "images" array with 3-5 entries, placed after relevant H2s.
-   Every "generation_prompt" MUST include this exact style block verbatim, then add scene-specific detail:
+   
+   CRITICAL PROMPT RULE:
+   The generation_prompt MUST start with the SPECIFIC visual subject, plants, vegetables, or gardening action FIRST.
+   NEVER generate an empty landscape, barren mountains, or generic background. The actual vegetables/plants (e.g. curly kale, fresh baby spinach, bright red radishes, wooden harvest crate, raised garden beds) MUST be the unmistakable central focus.
 
-   STYLE BLOCK (always include verbatim):
-   "Flat vector illustration style, modern editorial/children's-book aesthetic. Soft pastel color palette — dusty sky blue, warm terracotta/rust, olive and sage green, cream and light tan. Simple rounded character shapes with minimal facial detail, warm approachable expressions. Gentle gradient sky background with soft rounded clouds, low-detail rolling hills or mountains in the background. Clean geometric shapes, no harsh outlines, soft warm sunlight glow. No text, no logos, no watermarks, no real brand references."
+   Structure of every "generation_prompt":
+   [Specific Foreground Subject & Crops Details] + [Style Block]
 
-   For each image, add scene-specific direction:
+   Example: "A cheerful home gardener holding a rustic wooden basket overflowing with freshly harvested curly green kale leaves, vibrant baby spinach, and bright red radishes with leafy tops in a raised vegetable garden bed, flat vector illustration style, modern editorial children's-book aesthetic, soft pastel color palette with warm terracotta, olive and sage green, cream, and dusty sky blue, clean geometric vector shapes, gentle warm sunlight glow, strictly 2D flat illustration, no photorealism, no 3D render, no text, no logos"
+
+   For each image:
    - "placement": which exact H2 heading text it should follow
-   - "purpose": concise explanation (e.g. "illustrates step-by-step planting instructions")
-   - "generation_prompt": STYLE BLOCK + scene-specific detail
+   - "purpose": concise explanation (e.g. "illustrates harvesting kale and radishes")
+   - "generation_prompt": Specific crop/gardening scene first + style block
    - "alt_text": descriptive, includes natural keyword variant, under 125 chars
    - "caption": optional 1-line caption if helpful, else null
 
