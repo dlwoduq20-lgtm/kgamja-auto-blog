@@ -40,6 +40,6 @@ jobs:
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add topics_queue.json topics_queue_jp.json topics_queue_us.json published_history.json
+          git add topics_queue*.json published_history.json
           git diff --quiet && git diff --staged --quiet || git commit -m "chore: auto-update queue and history [skip ci]"
           git push

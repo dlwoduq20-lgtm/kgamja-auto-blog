@@ -76,13 +76,16 @@ def generate_article_garden(keyword: str, topic_angle: str = "", avoid_topics: l
     if not data:
         raise RuntimeError(f"All models failed to generate Garden article: {last_error}")
 
-    import markdown
-
     # Process and embed pastel vector illustrations
     images_spec = data.get("images", [])
     content_html = data.get("content_html") or ""
     if not content_html and data.get("body_markdown"):
-        content_html = markdown.markdown(data.get("body_markdown"), extensions=['tables', 'nl2br'])
+        try:
+            import markdown
+            content_html = markdown.markdown(data.get("body_markdown"), extensions=['tables', 'nl2br'])
+        except Exception as e:
+            print(f"⚠️ Markdown conversion warning: {e}")
+            content_html = data.get("body_markdown")
 
     h1_title = data.get("h1", keyword)
     hero_bytes = None
