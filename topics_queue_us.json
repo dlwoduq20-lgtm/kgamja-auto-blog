@@ -208,5 +208,215 @@
     "keyword": "Best Payment Processors for Online Business",
     "topic": "Stripe vs PayPal vs Authorize.net: Best Online Payment Processing Fees Compared",
     "status": "pending"
+  },
+  {
+    "id": 31,
+    "category": "CRM",
+    "keyword": "CRM for high-volume sales teams",
+    "topic": "Top 10 Enterprise-Grade CRMs for High-Volume Sales Teams (2026)",
+    "status": "pending"
+  },
+  {
+    "id": 32,
+    "category": "CRM",
+    "keyword": "CRM with native AI forecasting",
+    "topic": "Buyer’s Guide: Choosing a CRM with Predictive AI Forecasting (2026)",
+    "status": "pending"
+  },
+  {
+    "id": 33,
+    "category": "Invoicing & Billing",
+    "keyword": "Subscription management software for SaaS",
+    "topic": "Best Subscription Management & Billing Platforms for SaaS (2026)",
+    "status": "pending"
+  },
+  {
+    "id": 34,
+    "category": "Invoicing & Billing",
+    "keyword": "Automated accounts receivable software",
+    "topic": "How to Automate Accounts Receivable: Top Software Solutions (2026)",
+    "status": "pending"
+  },
+  {
+    "id": 35,
+    "category": "HR & Payroll",
+    "keyword": "Global PEO and EOR services",
+    "topic": "Comparing Global EOR Services for Distributed Workforce Expansion (2026)",
+    "status": "pending"
+  },
+  {
+    "id": 36,
+    "category": "HR & Payroll",
+    "keyword": "Performance management software for mid-market",
+    "topic": "Top Performance Management Platforms for Scaling Organizations (2026)",
+    "status": "pending"
+  },
+  {
+    "id": 37,
+    "category": "Project Management",
+    "keyword": "Resource capacity planning software",
+    "topic": "Best Resource Capacity Planning Tools for Project Managers (2026)",
+    "status": "pending"
+  },
+  {
+    "id": 38,
+    "category": "Project Management",
+    "keyword": "Agile project management tools for software development",
+    "topic": "Top Agile Project Management Suites for Development Teams (2026)",
+    "status": "pending"
+  },
+  {
+    "id": 39,
+    "category": "AI Productivity",
+    "keyword": "AI-powered document automation software",
+    "topic": "Best AI-Powered Document Automation Tools for Enterprise (2026)",
+    "status": "pending"
+  },
+  {
+    "id": 40,
+    "category": "AI Productivity",
+    "keyword": "AI note taking tools for business meetings",
+    "topic": "Top AI Meeting Assistants and Note-Taking Tools for Executives (2026)",
+    "status": "pending"
+  },
+  {
+    "id": 41,
+    "category": "E-commerce Tools",
+    "keyword": "Inventory management software for multi-channel e-commerce",
+    "topic": "Best Multi-Channel Inventory Management Software for E-commerce (2026)",
+    "status": "pending"
+  },
+  {
+    "id": 42,
+    "category": "E-commerce Tools",
+    "keyword": "B2B e-commerce platform solutions",
+    "topic": "Top B2B E-commerce Platforms for Digital Transformation (2026)",
+    "status": "pending"
+  },
+  {
+    "id": 43,
+    "category": "Cybersecurity for SMBs",
+    "keyword": "Endpoint detection and response for SMBs",
+    "topic": "Best EDR Solutions for Small to Mid-Sized Businesses (2026)",
+    "status": "pending"
+  },
+  {
+    "id": 44,
+    "category": "Cybersecurity for SMBs",
+    "keyword": "Cloud security posture management tools",
+    "topic": "Top Cloud Security Posture Management (CSPM) Tools (2026)",
+    "status": "pending"
+  },
+  {
+    "id": 45,
+    "category": "Customer Support",
+    "keyword": "Conversational AI support chatbots",
+    "topic": "Best Conversational AI Chatbots for Customer Support (2026)",
+    "status": "pending"
+  },
+  {
+    "id": 46,
+    "category": "Customer Support",
+    "keyword": "Customer success platforms for SaaS",
+    "topic": "Top Customer Success Management Software for SaaS Retention (2026)",
+    "status": "pending"
+  },
+  {
+    "id": 47,
+    "category": "CRM",
+    "keyword": "CRM for real estate agencies",
+    "topic": "Best Specialized CRM Software for Real Estate Brokerages (2026)",
+    "status": "pending"
+  },
+  {
+    "id": 48,
+    "category": "Invoicing & Billing",
+    "keyword": "B2B payment gateway providers",
+    "topic": "Top B2B Payment Gateway Solutions for High-Ticket Transactions (2026)",
+    "status": "pending"
+  },
+  {
+    "id": 49,
+    "category": "HR & Payroll",
+    "keyword": "Employee engagement software for hybrid teams",
+    "topic": "Best Employee Engagement Platforms for Hybrid Work Models (2026)",
+    "status": "pending"
+  },
+  {
+    "id": 50,
+    "category": "Project Management",
+    "keyword": "Portfolio management software for PMOs",
+    "topic": "Top Project Portfolio Management (PPM) Software for PMOs (2026)",
+    "status": "pending"
+  },
+  {
+    "id": 51,
+    "category": "AI Productivity",
+    "keyword": "AI copywriting tools for enterprise",
+    "topic": "Best AI Copywriting and Content Generation Tools for Brands (2026)",
+    "status": "pending"
+  },
+  {
+    "id": 52,
+    "category": "E-commerce Tools",
+    "keyword": "E-commerce analytics software",
+    "topic": "Top E-commerce Analytics Platforms for Data-Driven Growth (2026)",
+    "status": "pending"
+  },
+  {
+    "id": 53,
+    "category": "Cybersecurity for SMBs",
+    "keyword": "Security awareness training platforms",
+    "topic": "Best Security Awareness Training Platforms for Employees (2026)",
+    "status": "pending"
+  },
+  {
+    "id": 54,
+    "category": "Customer Support",
+    "keyword": "Voice of the customer (VoC) software",
+    "topic": "Top Voice of the Customer (VoC) Platforms for Product Teams (2026)",
+    "status": "pending"
+  },
+  {
+    "id": 55,
+    "category": "CRM",
+    "keyword": "CRM for non-profit organizations",
+    "topic": "Best Donor Management and CRM Software for Non-Profits (2026)",
+    "status": "pending"
+  },
+  {
+    "id": 56,
+    "category": "Invoicing & Billing",
+    "keyword": "Automated tax compliance software",
+    "topic": "Top Automated Sales Tax Compliance Software for SMBs (2026)",
+    "status": "pending"
+  },
+  {
+    "id": 57,
+    "category": "HR & Payroll",
+    "keyword": "Applicant screening and assessment software",
+    "topic": "Best Pre-Employment Assessment Tools for Talent Acquisition (2026)",
+    "status": "pending"
+  },
+  {
+    "id": 58,
+    "category": "Project Management",
+    "keyword": "Construction project management software",
+    "topic": "Top Construction Project Management Suites for Contractors (2026)",
+    "status": "pending"
+  },
+  {
+    "id": 59,
+    "category": "Cybersecurity for SMBs",
+    "keyword": "Managed firewall services for SMBs",
+    "topic": "Buyer’s Guide: Managed Firewall Services for SMB Security (2026)",
+    "status": "pending"
+  },
+  {
+    "id": 60,
+    "category": "Customer Support",
+    "keyword": "Omnichannel support software",
+    "topic": "Best Omnichannel Support Platforms for Unified CX (2026)",
+    "status": "pending"
   }
 ]

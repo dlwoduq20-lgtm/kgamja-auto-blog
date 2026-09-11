@@ -248,5 +248,255 @@
     "topic": "사실혼 관계 해소에 따른 재산분할 청구권 인정받은 입증 서류 4가지",
     "category": "이혼가사",
     "status": "done"
+  },
+  {
+    "topic": "월세 밀린 세입자 내보내기: 명도소송 없이 내용증명만으로 해결한 실전 기술",
+    "category": "전월세/부동산",
+    "status": "done"
+  },
+  {
+    "topic": "전세 보증금 반환 소송 승소 후, 집주인 재산에 강제경매 신청하기 단계별 가이드",
+    "category": "전월세/부동산",
+    "status": "pending"
+  },
+  {
+    "topic": "상가 임대차 계약 시 권리금 보호받기 위해 반드시 특약에 넣어야 할 3가지 문구",
+    "category": "전월세/부동산",
+    "status": "pending"
+  },
+  {
+    "topic": "전입신고 깜빡한 대항력 없는 임차인, 최우선변제금이라도 챙기는 법",
+    "category": "전월세/부동산",
+    "status": "pending"
+  },
+  {
+    "topic": "관리비 폭탄 방지: 오피스텔 계약 전 확인해야 할 공용부분 비용 산정 기준",
+    "category": "전월세/부동산",
+    "status": "pending"
+  },
+  {
+    "topic": "전세자금대출 연장 거절 위기, 대환대출로 금리 방어한 실제 경험담",
+    "category": "대출/신용회복",
+    "status": "pending"
+  },
+  {
+    "topic": "신용점수 700점대에서 900점대 올리기: 6개월간 실천한 카드 사용법",
+    "category": "대출/신용회복",
+    "status": "pending"
+  },
+  {
+    "topic": "개인회생 신청 시 배우자 재산이 기각 사유가 되는지 확인하는 체크리스트",
+    "category": "대출/신용회복",
+    "status": "pending"
+  },
+  {
+    "topic": "정부지원 햇살론 부결 시 2금융권 대안 상품과 승인 확률 높이는 팁",
+    "category": "대출/신용회복",
+    "status": "pending"
+  },
+  {
+    "topic": "연체 기록 삭제(신용사면) 대상 여부 확인하고 대출 갈아타기 성공한 후기",
+    "category": "대출/신용회복",
+    "status": "pending"
+  },
+  {
+    "topic": "중고거래 입금 후 잠적한 상대방, 경찰서 안 가고 소액사건심판으로 해결한 법",
+    "category": "사기/분쟁",
+    "status": "pending"
+  },
+  {
+    "topic": "오픈채팅방 투자 리딩방 사기 피해, 계좌 지급정지부터 피해금 환급 절차",
+    "category": "사기/분쟁",
+    "status": "pending"
+  },
+  {
+    "topic": "보험사 합의금 거절하고 손해사정사 없이 나홀로 소송하여 2배 더 받은 썰",
+    "category": "사기/분쟁",
+    "status": "pending"
+  },
+  {
+    "topic": "인터넷 명예훼손 고소당했을 때 댓글 삭제 전 증거 채증하는 올바른 방법",
+    "category": "사기/분쟁",
+    "status": "pending"
+  },
+  {
+    "topic": "결혼정보회사 환불 거부, 소비자분쟁조정위원회 신청으로 전액 돌려받기",
+    "category": "사기/분쟁",
+    "status": "pending"
+  },
+  {
+    "topic": "민사소송 피고로 소장 받았을 때 30일 이내 답변서 안 쓰면 벌어지는 일",
+    "category": "소송/합의금",
+    "status": "pending"
+  },
+  {
+    "topic": "합의금 500만 원 요구받은 교통사고, 과실비율 0:100 입증한 블랙박스 분석 팁",
+    "category": "소송/합의금",
+    "status": "pending"
+  },
+  {
+    "topic": "가압류 당한 통장, 법원 공탁 걸고 가압류 취소 신청하여 돈 찾은 실제 사례",
+    "category": "소송/합의금",
+    "status": "pending"
+  },
+  {
+    "topic": "소송비용 확정신청 제도 활용하여 상대방에게 변호사 비용 청구하는 법",
+    "category": "소송/합의금",
+    "status": "pending"
+  },
+  {
+    "topic": "지급명령 정본 송달받지 못했을 때 공시송달로 판결문 확정받는 법",
+    "category": "소송/합의금",
+    "status": "pending"
+  },
+  {
+    "topic": "연말정산 13월의 월급 챙기기: 놓치기 쉬운 소득공제 항목 5가지",
+    "category": "생활세금/지원금",
+    "status": "pending"
+  },
+  {
+    "topic": "부모님께 증여받을 때 5천만 원 공제 외에 합법적으로 절세하는 방법",
+    "category": "생활세금/지원금",
+    "status": "pending"
+  },
+  {
+    "topic": "건강보험료 지역가입자 전환 시 재산 항목 낮춰서 보험료 줄인 실제 노하우",
+    "category": "생활세금/지원금",
+    "status": "pending"
+  },
+  {
+    "topic": "청년도약계좌 중도 해지 고민 시 비과세 혜택 유지하며 활용하는 법",
+    "category": "생활세금/지원금",
+    "status": "pending"
+  },
+  {
+    "topic": "상속세 신고 안 하면 가산세 폭탄? 1억 원 이하 상속 시 신고 의무 여부",
+    "category": "생활세금/지원금",
+    "status": "pending"
+  },
+  {
+    "topic": "직장 내 괴롭힘으로 퇴사 시 실업급여 수급 자격 인정받는 증거 모으기",
+    "category": "노동/직장인법률",
+    "status": "pending"
+  },
+  {
+    "topic": "포괄임금제 계약서의 함정, 연장근로수당 제대로 계산해서 청구하는 법",
+    "category": "노동/직장인법률",
+    "status": "pending"
+  },
+  {
+    "topic": "부당해고 구제신청, 노무사 없이 노동위원회 출석하여 복직 합의 이끌어낸 법",
+    "category": "노동/직장인법률",
+    "status": "pending"
+  },
+  {
+    "topic": "퇴직금 미지급 시 노동청 진정 넣고 근로감독관에게 사건 배정받는 요령",
+    "category": "노동/직장인법률",
+    "status": "pending"
+  },
+  {
+    "topic": "프리랜서 3.3% 공제 근로자성 인정받아 밀린 급여와 퇴직금 받아낸 후기",
+    "category": "노동/직장인법률",
+    "status": "pending"
+  },
+  {
+    "topic": "전세금 반환 보증보험 가입 시 등기부등본 확인 필수 항목 3가지",
+    "category": "전월세/부동산",
+    "status": "pending"
+  },
+  {
+    "topic": "이사 당일 잔금 치르기 전 반드시 확인해야 할 공과금 정산과 영수증",
+    "category": "전월세/부동산",
+    "status": "pending"
+  },
+  {
+    "topic": "대출 연체 직전, 은행 창구에 찾아가서 만기 연장 설득하는 대화법",
+    "category": "대출/신용회복",
+    "status": "pending"
+  },
+  {
+    "topic": "신용카드 리볼빙 사용 후 신용점수 급락, 다시 회복하는 데 걸린 시간",
+    "category": "대출/신용회복",
+    "status": "pending"
+  },
+  {
+    "topic": "개인워크아웃 신청 후 채권추심 전화 멈추게 하는 법",
+    "category": "대출/신용회복",
+    "status": "pending"
+  },
+  {
+    "topic": "중고 직거래 사기꾼 이름과 계좌번호로 민사소송 거는 법",
+    "category": "사기/분쟁",
+    "status": "pending"
+  },
+  {
+    "topic": "보이스피싱 피해 입었을 때 1시간 이내에 해야 할 자금세탁 방지 조치",
+    "category": "사기/분쟁",
+    "status": "pending"
+  },
+  {
+    "topic": "택배 분실 시 택배사 보상 한도와 소비자분쟁 해결 기준 알아보기",
+    "category": "사기/분쟁",
+    "status": "pending"
+  },
+  {
+    "topic": "배달 음식 이물질 신고, 식약처 신고부터 환불까지의 과정",
+    "category": "사기/분쟁",
+    "status": "pending"
+  },
+  {
+    "topic": "소액 민사소송 시 변론기일 출석이 두려울 때 영상 재판 신청하는 법",
+    "category": "소송/합의금",
+    "status": "pending"
+  },
+  {
+    "topic": "교통사고 형사합의서 작성 시 반드시 포함해야 할 '처벌불원서' 문구",
+    "category": "소송/합의금",
+    "status": "pending"
+  },
+  {
+    "topic": "내 통장에 찍힌 의문의 입금액, 보이스피싱 연루 의심 시 대응법",
+    "category": "사기/분쟁",
+    "status": "pending"
+  },
+  {
+    "topic": "가족 사망 시 예금 상속 절차, 은행 방문 전 준비해야 할 서류",
+    "category": "생활세금/지원금",
+    "status": "pending"
+  },
+  {
+    "topic": "국민연금 조기 수령 시 손익분기점 계산해보고 결정한 실제 후기",
+    "category": "생활세금/지원금",
+    "status": "pending"
+  },
+  {
+    "topic": "육아휴직 급여 신청 시 통상임금 산정 기준과 실수령액 계산법",
+    "category": "노동/직장인법률",
+    "status": "pending"
+  },
+  {
+    "topic": "계약직 근로자의 갱신 기대권, 2년 이상 근무 시 정규직 전환 요구 가능성",
+    "category": "노동/직장인법률",
+    "status": "pending"
+  },
+  {
+    "topic": "임대사업자 등록 시 장단점, 세금 혜택과 의무 사항 비교",
+    "category": "전월세/부동산",
+    "status": "pending"
+  },
+  {
+    "topic": "대출 금리 인하 요구권, 가점 사유를 증명하는 서류 준비 팁",
+    "category": "대출/신용회복",
+    "status": "pending"
+  },
+  {
+    "topic": "민사소송 판결문 받기까지 평균 소요 기간과 예상 비용",
+    "category": "소송/합의금",
+    "status": "pending"
+  },
+  {
+    "topic": "지방세 체납으로 압류된 통장, 분할 납부 신청하여 압류 해제한 경험",
+    "category": "생활세금/지원금",
+    "status": "pending"
   }
 ]
