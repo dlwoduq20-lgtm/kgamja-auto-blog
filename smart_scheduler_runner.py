@@ -9,6 +9,10 @@ import json
 import subprocess
 from datetime import datetime, timezone, timedelta
 
+# Force UTF-8 encoding on Windows consoles
+sys.stdout.reconfigure(encoding='utf-8')
+sys.stderr.reconfigure(encoding='utf-8')
+
 # KST and JST are both UTC+9
 KST = timezone(timedelta(hours=9))
 TARGET_HOURS = [9, 12, 17, 20]
