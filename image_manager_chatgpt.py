@@ -45,11 +45,11 @@ def get_korean_font(size: int):
 
 def get_japanese_font(size: int):
     candidates = [
+        r"C:\Windows\Fonts\YuGothB.ttc",
         "/usr/share/fonts/opentype/noto/NotoSansCJK-Bold.ttc",
         "/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc",
-        "fonts/NotoSansJP-Variable.ttf",
-        r"C:\Windows\Fonts\YuGothB.ttc",
         r"C:\Windows\Fonts\msgothic.ttc",
+        "fonts/NotoSansJP-Variable.ttf",
         "fonts/NanumGothicBold.ttf"
     ]
     for p in candidates:
@@ -82,16 +82,21 @@ def apply_card_news_typography_overlay(
         overlay = Image.new("RGBA", (w, h), (0, 0, 0, 0))
         draw = ImageDraw.Draw(overlay)
 
-        # Extract punchy main question or statement
-        clean_title = title.strip()
-        if "?" in clean_title:
-            main_text = clean_title.split("?")[0].strip() + "?"
-        elif "!" in clean_title:
-            main_text = clean_title.split("!")[0].strip() + "!"
-        elif ":" in clean_title:
-            main_text = clean_title.split(":")[0].strip()
+        # Clean title prefix like 【体験談】, [실전후기]
+        clean_title = re.sub(r'^[【\[\(][^】\]\)]*[】\]\)]\s*', '', title).strip()
+        if not clean_title:
+            clean_title = title.strip()
+
+        # Standardize fullwidth punctuation for precise hook extraction
+        t_split = clean_title.replace('！', '!').replace('？', '?').replace('：', ':')
+        if "?" in t_split:
+            main_text = clean_title[:t_split.index("?") + 1].strip()
+        elif "!" in t_split:
+            main_text = clean_title[:t_split.index("!") + 1].strip()
+        elif ":" in t_split:
+            main_text = clean_title[:t_split.index(":")].strip()
         else:
-            main_text = clean_title[:24].strip()
+            main_text = clean_title[:20].strip()
 
         # Load bold fonts
         if language == "ja":
