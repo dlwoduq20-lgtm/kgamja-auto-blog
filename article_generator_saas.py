@@ -17,7 +17,7 @@ MODELS = [
 ]
 
 
-def generate_article_saas(keyword: str, topic_angle: str = "") -> dict:
+def generate_article_saas(keyword: str, topic_angle: str = "", related_articles: list = None) -> dict:
     '''
     Generate a full SEO-optimized B2B SaaS software review and comparison guide.
     '''
@@ -26,10 +26,17 @@ def generate_article_saas(keyword: str, topic_angle: str = "") -> dict:
 
     client = genai.Client(api_key=GEMINI_API_KEY)
     angle_text = f"\nSpecific angle/focus: {topic_angle}" if topic_angle else ""
+    
+    links_text = ""
+    if related_articles:
+        links_text = "\n[INTERNAL LINKING CANDIDATES]\n" + "\n".join(
+            [f"- Guide: '{a.get('title')}' -> URL: {a.get('url')}" for a in related_articles[:3]]
+        ) + "\nSeamlessly embed 1 or 2 contextual internal links into appropriate sections using <a href='URL'>Title</a>.\n"
+
     user_prompt = (
         f"Write a comprehensive, SEO-optimized B2B software buyer guide targeting the primary keyword: '{keyword}'.{angle_text}\n"
         f"Target audience: English-speaking small business owners, operations managers, and startup founders in US/UK/CA/AU.\n"
-        f"Ensure to include a comparison table of 5-7 leading tools, pricing breakdowns, standout features, limitations, and a decision framework."
+        f"Ensure to include a comparison table of 5-7 leading tools, pricing breakdowns, standout features, limitations, and an actionable buyer checklist.{links_text}"
     )
 
     last_error = None

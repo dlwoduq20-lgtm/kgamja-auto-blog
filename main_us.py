@@ -30,15 +30,44 @@ def save_queue_us(queue):
         json.dump(queue, f, ensure_ascii=False, indent=2)
 
 
+def get_related_us_articles(current_topic: str = "") -> list:
+    """
+    Fetch published posts from Blogger API to find related articles for contextual internal linking.
+    """
+    try:
+        from blogger_client import get_blogger_service
+        if os.path.exists("blogger_credentials.json"):
+            with open("blogger_credentials.json", "r", encoding="utf-8") as f:
+                c = json.load(f)
+            service = get_blogger_service(c)
+            posts = service.posts().list(blogId=BLOG_ID_US, maxResults=20).execute().get("items", [])
+            candidates = []
+            for p in posts:
+                t = p.get("title", "")
+                u = p.get("url", "")
+                if u and t and t.lower() != current_topic.lower():
+                    candidates.append({"title": t, "url": u})
+            return candidates[:3]
+    except Exception as e:
+        print(f"ℹ️ [Internal Linking] Candidate fetch notice: {e}")
+    return []
+
+
 def process_topic_us(item: dict):
     keyword = item.get("keyword", item.get("topic"))
     topic = item.get("topic", keyword)
     category = item.get("category", "SaaS Reviews")
     
     print(f"\n🇺🇸 [1/3] Planning B2B SaaS Review Article: '{topic}'")
-    print(f"⏳ Generating in-depth buyer guide, comparison table, pricing analysis, and 2D vector prompt...")
     
-    article = generate_article_saas(keyword=keyword, topic_angle=topic)
+    related = get_related_us_articles(current_topic=topic)
+    if related:
+        print(f"🔗 [Internal Linking] Connecting {len(related)} contextual internal guides:")
+        for r in related:
+            print(f"   - {r['title']}")
+
+    print(f"⏳ Generating in-depth buyer guide with transparent methodology & comparison table...")
+    article = generate_article_saas(keyword=keyword, topic_angle=topic, related_articles=related)
     
     title = article.get("h1", article.get("meta_title", topic))
     content_html = article.get("content_html", "")
@@ -67,6 +96,11 @@ def process_topic_us(item: dict):
             "@type": "BlogPosting",
             "headline": title,
             "description": excerpt,
+            "publisher": {
+                "@type": "Organization",
+                "name": "StackPilot",
+                "url": "https://smartlawstep.blogspot.com"
+            },
             "mainEntityOfPage": {
                 "@type": "WebPage"
             }
