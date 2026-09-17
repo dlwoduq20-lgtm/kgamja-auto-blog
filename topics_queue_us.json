@@ -365,356 +365,356 @@
   },
   {
     "id": 53,
-<<<<<<< HEAD
     "category": "Cybersecurity for SMBs",
     "keyword": "Security awareness training platforms",
     "topic": "Best Security Awareness Training Platforms for Employees (2026)",
     "status": "done"
-=======
+  },
+  {
+    "id": 54,
     "category": "E-Commerce & Retail Tech",
     "keyword": "Best E-Commerce Inventory Management Software",
     "topic": "7 Best E-Commerce Inventory Management Software for Multi-Channel Sellers (2026)",
     "status": "pending"
->>>>>>> b6b17d8 (feat(us-saas): upgrade E-E-A-T prompt, dynamic headings, internal linking and 5-pillar topic clusters)
   },
   {
-    "id": 54,
+    "id": 55,
     "category": "E-Commerce & Retail Tech",
     "keyword": "Best Shopify Marketing Automation Apps",
     "topic": "Top 6 Shopify Marketing Automation Apps to Scale DTC Retention in 2026",
     "status": "pending"
   },
   {
-    "id": 55,
+    "id": 56,
     "category": "E-Commerce & Retail Tech",
     "keyword": "Best B2B Payment Gateways",
     "topic": "Best B2B Payment Gateways for Cross-Border SaaS & Wholesale (2026 Review)",
     "status": "pending"
   },
   {
-    "id": 56,
+    "id": 57,
     "category": "E-Commerce & Retail Tech",
     "keyword": "Best Shipping Software for E-commerce",
     "topic": "ShipStation vs Shippo vs EasyPost: Best Shipping Software for Growing Stores",
     "status": "pending"
   },
   {
-    "id": 57,
+    "id": 58,
     "category": "E-Commerce & Retail Tech",
     "keyword": "Best E-commerce Return Management Software",
     "topic": "Top 5 E-Commerce Returns Management Platforms to Reduce Refund Costs",
     "status": "pending"
   },
   {
-    "id": 58,
+    "id": 59,
     "category": "E-Commerce & Retail Tech",
     "keyword": "Best E-commerce Conversion Rate Optimization Tools",
     "topic": "Best E-Commerce CRO Tools in 2026: Heatmaps, A/B Testing & Session Replay",
     "status": "pending"
   },
   {
-    "id": 59,
+    "id": 60,
     "category": "E-Commerce & Retail Tech",
     "keyword": "Best Product Information Management PIM Software",
     "topic": "Top 6 Product Information Management (PIM) Platforms for Scaling Catalogs",
     "status": "pending"
   },
   {
-    "id": 60,
+    "id": 61,
     "category": "E-Commerce & Retail Tech",
     "keyword": "Best Subscription Management for E-commerce",
     "topic": "Recharge vs Smartrr vs Bold: Best E-Commerce Subscription Management Apps",
     "status": "pending"
   },
   {
-    "id": 61,
+    "id": 62,
     "category": "E-Commerce & Retail Tech",
     "keyword": "Best Post-Purchase Upsell Apps for Shopify",
     "topic": "Top 5 Post-Purchase Upsell & Cross-Sell Apps to Boost Average Order Value",
     "status": "pending"
   },
   {
-    "id": 62,
+    "id": 63,
     "category": "E-Commerce & Retail Tech",
     "keyword": "Best Customer Loyalty Software for E-commerce",
     "topic": "Yotpo vs Smile.io vs LoyaltyLion: Best E-Commerce Loyalty Programs (2026)",
     "status": "pending"
   },
   {
-    "id": 63,
+    "id": 64,
     "category": "AI & Business Automation",
     "keyword": "Best AI Meeting Assistants and Note Takers",
     "topic": "Fireflies vs Otter vs Fathom: Best AI Meeting Assistants for Busy Teams (2026)",
     "status": "pending"
   },
   {
-    "id": 64,
+    "id": 65,
     "category": "AI & Business Automation",
     "keyword": "Best Workflow Automation Tools",
     "topic": "Make vs Zapier vs n8n: Which Workflow Automation Platform Fits Your Budget?",
     "status": "pending"
   },
   {
-    "id": 65,
+    "id": 66,
     "category": "AI & Business Automation",
     "keyword": "Best AI Customer Support Chatbots",
     "topic": "Top 6 AI Customer Support Chatbots for E-Commerce & SaaS in 2026",
     "status": "pending"
   },
   {
-    "id": 66,
+    "id": 67,
     "category": "AI & Business Automation",
     "keyword": "Best AI Presentation Makers for Business",
     "topic": "Gamma vs Beautiful.ai vs Tome: Best AI Presentation Tools for Founders & Sales",
     "status": "pending"
   },
   {
-    "id": 67,
+    "id": 68,
     "category": "AI & Business Automation",
     "keyword": "Best AI Coding Assistants for Enterprise Teams",
     "topic": "GitHub Copilot vs Cursor vs Tabnine: Best AI Coding Assistants Compared",
     "status": "pending"
   },
   {
-    "id": 68,
+    "id": 69,
     "category": "AI & Business Automation",
     "keyword": "Best Enterprise AI Search and Knowledge Discovery",
     "topic": "Top 5 Enterprise AI Search Platforms to Connect Fragmented Company Data",
     "status": "pending"
   },
   {
-    "id": 69,
+    "id": 70,
     "category": "AI & Business Automation",
     "keyword": "Best AI Video Generators for Marketing",
     "topic": "HeyGen vs Synthesia vs Colossyan: Best AI Video Tools for Business Demos",
     "status": "pending"
   },
   {
-    "id": 70,
+    "id": 71,
     "category": "AI & Business Automation",
     "keyword": "Best AI Voice and Speech Generators",
     "topic": "ElevenLabs vs Murf vs PlayHT: Top AI Voice Generators for Corporate Content",
     "status": "pending"
   },
   {
-    "id": 71,
+    "id": 72,
     "category": "AI & Business Automation",
     "keyword": "Best AI Document Processing Software",
     "topic": "Top Intelligent Document Processing (IDP) Tools for Invoices, Contracts & Receipts",
     "status": "pending"
   },
   {
-    "id": 72,
+    "id": 73,
     "category": "AI & Business Automation",
     "keyword": "Best AI Email Assistants for Productivity",
     "topic": "Top 5 AI Email Assistants to Reach Inbox Zero Faster (2026 Guide)",
     "status": "pending"
   },
   {
-    "id": 73,
+    "id": 74,
     "category": "Sales & Revenue Operations",
     "keyword": "Best B2B Sales Prospecting Tools",
     "topic": "Apollo.io vs ZoomInfo vs Cognism: Best B2B Lead Intelligence & Prospecting Tools",
     "status": "pending"
   },
   {
-    "id": 74,
+    "id": 75,
     "category": "Sales & Revenue Operations",
     "keyword": "Best Cold Email Outreach Software",
     "topic": "Instantly vs Smartlead vs Lemlist: Best Cold Email Platforms for High Deliverability",
     "status": "pending"
   },
   {
-    "id": 75,
+    "id": 76,
     "category": "Sales & Revenue Operations",
     "keyword": "Best Contract Lifecycle Management CLM Software",
     "topic": "Top 6 Contract Lifecycle Management (CLM) Platforms for Fast-Moving Startups",
     "status": "pending"
   },
   {
-    "id": 76,
+    "id": 77,
     "category": "Sales & Revenue Operations",
     "keyword": "Best Recurring Billing and Subscription Management",
     "topic": "Chargebee vs Stripe Billing vs Recurly: Best SaaS Subscription Billing Software",
     "status": "pending"
   },
   {
-    "id": 77,
+    "id": 78,
     "category": "Sales & Revenue Operations",
     "keyword": "Best Sales Engagement Platforms for Remote SDRs",
     "topic": "Salesloft vs Outreach vs Apollo: Best Sales Engagement Software (2026)",
     "status": "pending"
   },
   {
-    "id": 78,
+    "id": 79,
     "category": "Sales & Revenue Operations",
     "keyword": "Best B2B CPQ Software for Fast Quotes",
     "topic": "Top 5 CPQ (Configure, Price, Quote) Platforms for Complex B2B Sales Cycles",
     "status": "pending"
   },
   {
-    "id": 79,
+    "id": 80,
     "category": "Sales & Revenue Operations",
     "keyword": "Best Sales Commission Tracking Software",
     "topic": "CaptivateIQ vs QuotaPath vs Spiff: Best Commission Software for Sales Teams",
     "status": "pending"
   },
   {
-    "id": 80,
+    "id": 81,
     "category": "Sales & Revenue Operations",
     "keyword": "Best Revenue Intelligence and Conversation Analytics",
     "topic": "Gong vs Chorus vs Clari: Top Revenue Intelligence Platforms Compared",
     "status": "pending"
   },
   {
-    "id": 81,
+    "id": 82,
     "category": "Sales & Revenue Operations",
     "keyword": "Best Partner Relationship Management PRM Software",
     "topic": "Top 5 PRM Platforms to Manage Affiliate, Channel & Agency Partnerships",
     "status": "pending"
   },
   {
-    "id": 82,
+    "id": 83,
     "category": "Sales & Revenue Operations",
     "keyword": "Best Sales Proposal and Pitch Deck Software",
     "topic": "PandaDoc vs Proposify vs Qwilr: Best Software to Close Deals Faster",
     "status": "pending"
   },
   {
-    "id": 83,
+    "id": 84,
     "category": "Productivity & Team Operations",
     "keyword": "Best Asynchronous Video Communication Software",
     "topic": "Loom vs Vidyard vs Zight: Best Async Video Messaging for Remote Teams",
     "status": "pending"
   },
   {
-    "id": 84,
+    "id": 85,
     "category": "Productivity & Team Operations",
     "keyword": "Best Internal Wiki and Documentation Tools",
     "topic": "Notion vs Slite vs GitBook: Best Team Knowledge Base Software (2026)",
     "status": "pending"
   },
   {
-    "id": 85,
+    "id": 86,
     "category": "Productivity & Team Operations",
     "keyword": "Best Agency Resource Management and Time Tracking",
     "topic": "Harvest vs Float vs Toggl Track: Best Resource Planning Tools for Agencies",
     "status": "pending"
   },
   {
-    "id": 86,
+    "id": 87,
     "category": "Productivity & Team Operations",
     "keyword": "Best Digital Asset Management DAM Software",
     "topic": "Brandfolder vs Canto vs Bynder: Best Digital Asset Management for Growth Teams",
     "status": "pending"
   },
   {
-    "id": 87,
+    "id": 88,
     "category": "Productivity & Team Operations",
     "keyword": "Best Virtual Whiteboard Software for Collaborative Brainstorming",
     "topic": "Miro vs Mural vs FigJam: Which Online Whiteboard Best Fits Your Hybrid Team?",
     "status": "pending"
   },
   {
-    "id": 88,
+    "id": 89,
     "category": "Productivity & Team Operations",
     "keyword": "Best OKR Tracking Software for High-Growth Startups",
     "topic": "Top 5 Goal & OKR Tracking Platforms to Align Remote Companies (2026)",
     "status": "pending"
   },
   {
-    "id": 89,
+    "id": 90,
     "category": "Productivity & Team Operations",
     "keyword": "Best Employee Onboarding and Training Platforms",
     "topic": "Trainual vs Whale vs 360Learning: Best SOP & Employee Training Software",
     "status": "pending"
   },
   {
-    "id": 90,
+    "id": 91,
     "category": "Productivity & Team Operations",
     "keyword": "Best All-in-One Workspace Tools",
     "topic": "Coda vs Notion vs Airtable: Which Modular Productivity Platform Wins in 2026?",
     "status": "pending"
   },
   {
-    "id": 91,
+    "id": 92,
     "category": "Productivity & Team Operations",
     "keyword": "Best Meeting Scheduling Software for Sales Teams",
     "topic": "Calendly vs Chili Piper vs Cal.com: Best Meeting Schedulers for High Conversion",
     "status": "pending"
   },
   {
-    "id": 92,
+    "id": 93,
     "category": "Productivity & Team Operations",
     "keyword": "Best Team Feedback and Pulse Survey Tools",
     "topic": "Officevibe vs Culture Amp vs TINYpulse: Best Employee Engagement Survey Platforms",
     "status": "pending"
   },
   {
-    "id": 93,
+    "id": 94,
     "category": "Cybersecurity & Compliance",
     "keyword": "Best Business Password Managers",
     "topic": "1Password vs Bitwarden vs Dashlane: Best Password Managers for Teams in 2026",
     "status": "pending"
   },
   {
-    "id": 94,
+    "id": 95,
     "category": "Cybersecurity & Compliance",
     "keyword": "Best SOC 2 Compliance Automation Software",
     "topic": "Vanta vs Drata vs Secureframe: Best Compliance Automation Platforms Compared",
     "status": "pending"
   },
   {
-    "id": 95,
+    "id": 96,
     "category": "Cybersecurity & Compliance",
     "keyword": "Best Endpoint Detection and Response EDR for SMBs",
     "topic": "CrowdStrike vs SentinelOne vs Huntress: Best Managed Endpoint Security for SMBs",
     "status": "pending"
   },
   {
-    "id": 96,
+    "id": 97,
     "category": "Cybersecurity & Compliance",
     "keyword": "Best Business VPN and Zero Trust Network Access",
     "topic": "Tailscale vs Perimeter 81 vs NordLayer: Best Remote Access Security for Teams",
     "status": "pending"
   },
   {
-    "id": 97,
+    "id": 98,
     "category": "Cybersecurity & Compliance",
     "keyword": "Best Cloud Backup and Disaster Recovery Software",
     "topic": "Backblaze vs Acronis vs Datto: Top Cloud Backup Solutions for Small Businesses",
     "status": "pending"
   },
   {
-    "id": 98,
+    "id": 99,
     "category": "Cybersecurity & Compliance",
     "keyword": "Best Email Security and Phishing Protection Software",
     "topic": "Avanan vs Abnormal Security vs Proofpoint: Best Email Defenses Against Phishing",
     "status": "pending"
   },
   {
-    "id": 99,
+    "id": 100,
     "category": "Cybersecurity & Compliance",
     "keyword": "Best Security Awareness Training Platforms",
     "topic": "KnowBe4 vs Curricula vs Hoxhunt: Best Phishing Simulation & Employee Training",
     "status": "pending"
   },
   {
-    "id": 100,
+    "id": 101,
     "category": "Cybersecurity & Compliance",
     "keyword": "Best Mobile Device Management MDM for Remote Workers",
     "topic": "Kandji vs Jamf vs Hexnode: Best MDM Platforms to Secure Distributed Hardware",
     "status": "pending"
   },
   {
-    "id": 101,
+    "id": 102,
     "category": "Cybersecurity & Compliance",
     "keyword": "Best Third-Party Vendor Risk Management Software",
     "topic": "Top 5 Vendor Risk Assessment & Supply Chain Security Tools for Fast Compliance",
     "status": "pending"
   },
   {
-    "id": 102,
+    "id": 103,
     "category": "Cybersecurity & Compliance",
     "keyword": "Best Data Loss Prevention DLP for Remote Startups",
     "topic": "Nightfall vs Symantec vs Cyberhaven: Best Modern Cloud DLP Platforms (2026)",
