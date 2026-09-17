@@ -11,7 +11,7 @@ import argparse
 sys.stdout.reconfigure(encoding='utf-8')
 
 from article_generator_jp import generate_article_jp
-from image_manager_flux import fetch_flux_image_bytes
+from image_manager_chatgpt import fetch_chatgpt_thumbnail_bytes
 from blogger_client import publish_blogger_post, BLOG_ID_JP
 
 QUEUE_FILE_JP = "topics_queue_jp.json"
@@ -53,9 +53,9 @@ def process_topic_jp(topic: str):
     print(f"📝 メタ要約 ({len(excerpt)}文字): {excerpt}")
     print(f"📊 本文文字数: {len(content_html)} 文字")
 
-    # 2. Fetch 2D Manga Illustration Bytes
-    print(f"\n🚀 [2/3] 2Dマンガスタイルイラスト生成＆ダウンロード中...")
-    image_bytes = fetch_flux_image_bytes(image_prompt_en)
+    # 2. Fetch 3D Card-News Thumbnail Bytes (ChatGPT DALL-E / 3D Style)
+    print(f"\n🚀 [2/3] 챗GPT(ChatGPT) スタイル 3Dカードニュースサムネイル生成中...")
+    image_bytes = fetch_chatgpt_thumbnail_bytes(title, language="ja")
 
     # Google Japan SEO JSON-LD Schema Markup
     schema_ld = {
