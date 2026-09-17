@@ -55,7 +55,7 @@ def process_topic(topic: str):
 
     # 2. Fetch 3D Card-News Thumbnail Bytes (ChatGPT DALL-E / 3D Style)
     print(f"\n🚀 [2/3] 챗GPT 스타일 3D 카드뉴스 썸네일 생성 중...")
-    image_bytes = fetch_chatgpt_thumbnail_bytes(title, language="ko")
+    image_bytes = fetch_chatgpt_thumbnail_bytes(title, language="ko", category=category)
 
     # Google SEO JSON-LD Schema Markup
     schema_ld = {

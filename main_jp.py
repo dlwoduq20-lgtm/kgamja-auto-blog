@@ -55,7 +55,7 @@ def process_topic_jp(topic: str):
 
     # 2. Fetch 3D Card-News Thumbnail Bytes (ChatGPT DALL-E / 3D Style)
     print(f"\n🚀 [2/3] 챗GPT(ChatGPT) スタイル 3Dカードニュースサムネイル生成中...")
-    image_bytes = fetch_chatgpt_thumbnail_bytes(title, language="ja")
+    image_bytes = fetch_chatgpt_thumbnail_bytes(title, language="ja", category=category)
 
     # Google Japan SEO JSON-LD Schema Markup
     schema_ld = {
