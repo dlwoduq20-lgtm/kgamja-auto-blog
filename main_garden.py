@@ -35,15 +35,46 @@ def get_avoid_topics(queue):
     return [q.get("keyword") for q in queue if q.get("status") == "done"]
 
 
+def get_related_garden_articles(current_keyword: str = "") -> list:
+    """
+    Fetch published posts from Blogger API to find related articles for contextual internal linking.
+    """
+    try:
+        from blogger_client import get_blogger_service
+        if os.path.exists("blogger_credentials.json"):
+            with open("blogger_credentials.json", "r", encoding="utf-8") as f:
+                c = json.load(f)
+            service = get_blogger_service(c)
+            posts = service.posts().list(blogId=BLOG_ID_GARDEN, maxResults=20).execute().get("items", [])
+            candidates = []
+            for p in posts:
+                t = p.get("title", "")
+                u = p.get("url", "")
+                if u and t and t.lower() != current_keyword.lower():
+                    candidates.append({"title": t, "url": u})
+            return candidates[:3]
+    except Exception as e:
+        print(f"ℹ️ [Internal Linking] Candidate fetch notice: {e}")
+    return []
+
+
 def process_topic_garden(keyword: str, topic_angle: str = "", queue=None):
     print(f"\n🌱 [1/3] AI Home & Garden Article Writing Started: '{keyword}'")
-    print(f"⏳ Generating E-E-A-T rich horticulture guide with pastel vector illustrations...")
+    
+    related = get_related_garden_articles(current_keyword=keyword)
+    if related:
+        print(f"🔗 [Internal Linking] Connecting {len(related)} contextual internal guides:")
+        for r in related:
+            print(f"   - {r['title']}")
+
+    print(f"⏳ Generating E-E-A-T rich horticulture guide with dynamic headings & pastel vector illustrations...")
 
     avoid_list = get_avoid_topics(queue) if queue else []
     article = generate_article_garden(
         keyword=keyword,
         topic_angle=topic_angle,
-        avoid_topics=avoid_list
+        avoid_topics=avoid_list,
+        related_articles=related
     )
 
     h1 = article.get("h1", keyword)

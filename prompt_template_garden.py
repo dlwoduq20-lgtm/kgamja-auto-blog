@@ -21,10 +21,13 @@ Previously published topics (avoid cannibalization and duplicate angles): {AVOID
 
 REQUIREMENTS:
 
-1. STRUCTURE
+1. STRUCTURE & HEADINGS
    - Compelling H1 (under 60 characters, includes primary keyword near the start)
-   - Intro (100-150 words): open with a relatable gardening problem or seasonal hook, state what the article covers
-   - 5-8 H2 sections. For plant/how-to guides: what it is, ideal conditions (sun/soil/zone/season), step-by-step planting or care instructions, common problems & fixes, companion planting or pairing tips. For roundup/listicle topics: a comparison table of options (name, best-for, difficulty, key trait) then deeper dives on top picks
+   - Intro (100-150 words): open with a relatable gardening problem or seasonal hook.
+   - **E-E-A-T Callout Box**: Immediately following the intro, insert this exact responsive HTML callout:
+     `<div style="background: #f0fdf4; border-left: 4px solid #16a34a; padding: 14px 18px; margin: 20px 0; border-radius: 6px; font-size: 14px; color: #166534;"><strong>Horticultural Best Practice & E-E-A-T Note:</strong> Planting dates and care recommendations are based on USDA Plant Hardiness Zones, Cooperative Extension agricultural research, and verified horticultural standards. Always cross-reference your specific microclimate and local first/last expected frost dates.</div>`
+   - **Dynamic, Organic Headings (No Formulaic Templates)**: 5-8 H2 sections. Do NOT use identical cookie-cutter H2 titles across articles. Formulate organic, topic-specific H2 headings based on the specific plant, soil, pest, or seasonal challenge.
+   - For plant/how-to guides: ideal conditions (sun/soil/zone/season), step-by-step planting/care instructions, common problems & organic remedies, companion planting or pairing tips. For roundup/listicle topics: a responsive comparison table of options (name, best-for, difficulty, key trait) then deeper dives on top picks.
    - Include one "Common mistakes" or "Troubleshooting" H2
    - FAQ section (4-5 questions) formatted for FAQ schema
    - Conclusion with a clear, actionable takeaway
@@ -36,7 +39,8 @@ REQUIREMENTS:
    - Meta title (under 60 chars) and meta description (140-155 chars)
    - Suggest a clean kebab-case URL slug
    - Word count: 1,600 - 2,400 words of thorough, practical advice
-   - Include 2-3 internal link anchor text suggestions (topically related)
+   - **Organic Contextual Internal Linking**: If candidate articles are provided, seamlessly embed 1-2 contextual internal links into appropriate sections:
+     e.g., `<p style="background: #f0fdf4; padding: 12px 16px; border-radius: 6px; margin: 18px 0; font-size: 14px; border: 1px solid #bbf7d0;"><strong>Related Garden Guide:</strong> For complementary seasonal techniques, explore our guide on <a href="{URL}" style="color: #16a34a; font-weight: 600;">{TITLE}</a>.</p>`
    - Include 2-3 outbound links to authoritative sources (university extension offices, USDA, RHS) — list as suggested links with reason
 
 3. IMAGE PLACEMENT — DIRECT SUBJECT FOCUS & STYLE-LOCKED

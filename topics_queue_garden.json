@@ -349,5 +349,159 @@
     "category": "Early Spring Planning",
     "season": "Winter",
     "status": "pending"
+  },
+  {
+    "keyword": "winter vegetable cold frame construction",
+    "topic": "Step-by-step DIY guide to building a durable wood and polycarbonate cold frame with automatic heat vents",
+    "category": "Season Extension",
+    "season": "Winter",
+    "status": "pending"
+  },
+  {
+    "keyword": "growing root vegetables in five gallon buckets",
+    "topic": "How to grow carrots, beets, and parsnips in food-grade buckets for continuous indoor or patio harvest",
+    "category": "Edible Gardening",
+    "season": "Winter",
+    "status": "pending"
+  },
+  {
+    "keyword": "protecting fruit trees from winter freeze",
+    "topic": "Proven methods for tree trunk painting, burlap wrapping, and root insulation against frost cracks",
+    "category": "Orchard & Pruning",
+    "season": "Winter",
+    "status": "pending"
+  },
+  {
+    "keyword": "winter sowing seeds in milk jugs",
+    "topic": "Zero-indoor-light cold stratification method using clear recycled plastic jugs left outdoors in snow",
+    "category": "Seed Starting",
+    "season": "Winter",
+    "status": "pending"
+  },
+  {
+    "keyword": "growing winter lettuce under low tunnels",
+    "topic": "How to erect PVC hoop tunnels with floating row covers for fresh salad greens at 20 degrees Fahrenheit",
+    "category": "Season Extension",
+    "season": "Winter",
+    "status": "pending"
+  },
+  {
+    "keyword": "seed starting light intensity and distance",
+    "topic": "Optimal LED grow light spacing, lux measurements, and daily timer schedules to stop leggy seedlings",
+    "category": "Seed Starting",
+    "season": "Early Spring Planning",
+    "status": "pending"
+  },
+  {
+    "keyword": "indoor seed starting soil mix recipe",
+    "topic": "Peat-free potting blend with coconut coir, perlite, worm castings, and mycorrhizal inoculants",
+    "category": "Soil & Composting",
+    "season": "Early Spring Planning",
+    "status": "pending"
+  },
+  {
+    "keyword": "hardening off indoor seedlings safely",
+    "topic": "A 10-day progressive outdoor acclimation schedule to prevent sunscald, wind damage, and transplant shock",
+    "category": "Seed Starting",
+    "season": "Early Spring Planning",
+    "status": "pending"
+  },
+  {
+    "keyword": "planting early spring peas in wet soil",
+    "topic": "Techniques for germinating shelling and snap peas in cold mud using inoculants and raised planting ridges",
+    "category": "Vegetable Gardening",
+    "season": "Early Spring Planning",
+    "status": "pending"
+  },
+  {
+    "keyword": "potting up tomato seedlings",
+    "topic": "Deep-stem burial technique during first repotting to build strong secondary adventitious root systems",
+    "category": "Vegetable Gardening",
+    "season": "Early Spring Planning",
+    "status": "pending"
+  },
+  {
+    "keyword": "amending heavy clay soil organically",
+    "topic": "How to convert sticky dense clay into crumbly loam using gypsum, coarse compost, and daikon radishes",
+    "category": "Soil & Composting",
+    "season": "All Season",
+    "status": "pending"
+  },
+  {
+    "keyword": "no till sheet mulching lasagna gardening",
+    "topic": "Layer-by-layer cardboard, manure, green clippings, and straw technique to build weed-free fertile beds",
+    "category": "Soil & Composting",
+    "season": "Autumn",
+    "status": "pending"
+  },
+  {
+    "keyword": "vermicomposting indoor worm bin guide",
+    "topic": "Managing Red Wigglers in rubber tote bins: moisture balance, bedding depth, and feeding ratios",
+    "category": "Composting",
+    "season": "All Season",
+    "status": "pending"
+  },
+  {
+    "keyword": "wood chip mulching nitrogen lockup myth",
+    "topic": "Horticultural breakdown of surface fungal decomposition vs soil nitrogen drawdown around plant roots",
+    "category": "Soil & Composting",
+    "season": "All Season",
+    "status": "pending"
+  },
+  {
+    "keyword": "building hugelkultur raised garden beds",
+    "topic": "Constructing woody-core buried mounds that retain moisture and generate biological warmth for seasons",
+    "category": "Raised Beds",
+    "season": "Autumn",
+    "status": "pending"
+  },
+  {
+    "keyword": "organic remedies for powdery mildew",
+    "topic": "Potassium bicarbonate, diluted milk spray, and copper fungicide schedules for cucurbit leaves",
+    "category": "Pest Management",
+    "season": "Summer",
+    "status": "pending"
+  },
+  {
+    "keyword": "companion planting marigolds and basil",
+    "topic": "Using aromatic terpenes to deter hornworms, aphids, and root-knot nematodes in home gardens",
+    "category": "Organic Gardening",
+    "season": "Spring",
+    "status": "pending"
+  },
+  {
+    "keyword": "preventing tomato blossom end rot",
+    "topic": "Consistent deep watering regimens and calcium uptake mechanisms to stop bottom fruit blackening",
+    "category": "Vegetable Gardening",
+    "season": "Summer",
+    "status": "pending"
+  },
+  {
+    "keyword": "beneficial insects to control garden pests",
+    "topic": "Releasing and attracting lacewings, ladybugs, and parasitic wasps for non-chemical pest suppression",
+    "category": "Organic Gardening",
+    "season": "Spring",
+    "status": "pending"
+  },
+  {
+    "keyword": "neem oil spray application timing",
+    "topic": "Cold-pressed pure neem emulsion mixing, dawn/dusk application rules to safeguard honeybees",
+    "category": "Pest Management",
+    "season": "All Season",
+    "status": "pending"
+  },
+  {
+    "keyword": "growing strawberries in vertical towers",
+    "topic": "Optimizing vertical tiered planters with runners, drip irrigation, and pine needle mulching",
+    "category": "Fruit & Container Gardening",
+    "season": "Spring",
+    "status": "pending"
+  },
+  {
+    "keyword": "dwarf citrus tree care in containers",
+    "topic": "Overwintering potted Meyer lemons indoors: supplemental grow lights, humidity trays, and hand-pollination",
+    "category": "Fruit & Container Gardening",
+    "season": "Winter",
+    "status": "pending"
   }
 ]

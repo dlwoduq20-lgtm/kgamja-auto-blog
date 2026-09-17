@@ -30,11 +30,40 @@ def save_queue(queue):
         json.dump(queue, f, ensure_ascii=False, indent=2)
 
 
+def get_related_kr_articles(current_topic: str = "") -> list:
+    """
+    Fetch published posts from Blogger API to find related articles for contextual internal linking.
+    """
+    try:
+        from blogger_client import get_blogger_service
+        if os.path.exists("blogger_credentials.json"):
+            with open("blogger_credentials.json", "r", encoding="utf-8") as f:
+                c = json.load(f)
+            service = get_blogger_service(c)
+            posts = service.posts().list(blogId=BLOG_ID_KR, maxResults=20).execute().get("items", [])
+            candidates = []
+            for p in posts:
+                t = p.get("title", "")
+                u = p.get("url", "")
+                if u and t and t.lower() != current_topic.lower():
+                    candidates.append({"title": t, "url": u})
+            return candidates[:3]
+    except Exception as e:
+        print(f"ℹ️ [내부 링크] 후보 글 조회 참고: {e}")
+    return []
+
+
 def process_topic(topic: str):
     print(f"\n🚀 [1/3] AI 글 및 2D 웹툰 일러스트 기획 시작: '{topic}'")
-    print("⏳ Gemini 모델로 1인칭 공감형 칼럼, 구글 SEO 최적화 본문, 2D 웹툰 만화 프롬프트 생성 중...")
     
-    article = generate_article(topic)
+    related = get_related_kr_articles(current_topic=topic)
+    if related:
+        print(f"🔗 [내부 링크] 맥락형 내부 링크 후보 {len(related)}개 연동:")
+        for r in related:
+            print(f"   - {r['title']}")
+
+    print("⏳ Gemini 모델로 1인칭 공감형 칼럼, E-E-A-T 준칙, 동적 소제목, 2D 웹툰 만화 프롬프트 생성 중...")
+    article = generate_article(topic, related_articles=related)
     
     title = article.get("title", topic)
     category = article.get("category", "생활법률")
@@ -57,17 +86,38 @@ def process_topic(topic: str):
     print(f"\n🚀 [2/3] 챗GPT 스타일 3D 카드뉴스 썸네일 생성 중...")
     image_bytes = fetch_chatgpt_thumbnail_bytes(title, language="ko", category=category)
 
-    # Google SEO JSON-LD Schema Markup
-    schema_ld = {
-        "@context": "https://schema.org",
-        "@type": "BlogPosting",
-        "headline": title,
-        "description": excerpt,
-        "articleSection": category,
-        "keywords": tags,
-        "mainEntityOfPage": {"@type": "WebPage"}
-    }
-    content_html += f"\n<script type=\"application/ld+json\">\n{json.dumps(schema_ld, ensure_ascii=False, indent=2)}\n</script>\n"
+    # Google SEO JSON-LD Schema Markup (BlogPosting & FAQPage)
+    schema_entities = [
+        {
+            "@context": "https://schema.org",
+            "@type": "BlogPosting",
+            "headline": title,
+            "description": excerpt,
+            "articleSection": category,
+            "keywords": tags,
+            "inLanguage": "ko",
+            "mainEntityOfPage": {"@type": "WebPage"}
+        }
+    ]
+    if article.get("faq_schema"):
+        schema_entities.append({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": [
+                {
+                    "@type": "Question",
+                    "name": item.get("question"),
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": item.get("answer")
+                    }
+                }
+                for item in article["faq_schema"] if item.get("question") and item.get("answer")
+            ]
+        })
+
+    for s in schema_entities:
+        content_html += f"\n<script type=\"application/ld+json\">\n{json.dumps(s, ensure_ascii=False, indent=2)}\n</script>\n"
 
     # 3. Publish to Google Blogger via official REST API v3
     print(f"\n🚀 [3/3] 구글 블로거 공식 REST API v3로 글 및 2D 웹툰 일러스트 즉시 등록 중...")

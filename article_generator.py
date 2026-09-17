@@ -16,15 +16,25 @@ MODELS = [
 ]
 
 
-def generate_article(topic: str) -> dict:
+def generate_article(topic: str, related_articles: list = None) -> dict:
     """
-    Generate a full SEO-optimized article matching kgamjablog's DNA.
+    Generate a full SEO-optimized article matching kgamjablog's DNA with E-E-A-T and internal links.
     """
     if not GEMINI_API_KEY:
         raise ValueError("GEMINI_API_KEY is not set.")
 
     client = genai.Client(api_key=GEMINI_API_KEY)
-    user_prompt = f"다음 주제/키워드에 대해 독자에게 실질적인 해결책을 주는 고품질 블로그 글을 작성해 주세요:\n주제: {topic}"
+    
+    links_text = ""
+    if related_articles:
+        links_text = "\n[내부 링크 후보 글 목록 (Contextual Internal Linking)]\n" + "\n".join(
+            [f"- 글: '{a.get('title')}' -> URL: {a.get('url')}" for a in related_articles[:3]]
+        ) + "\n위 목록 중 본문 문맥과 가장 잘 어울리는 1~2개 글을 본문 중간에 <a href='URL'>글제목</a> 형태로 자연스럽게 링크 박스로 연결해 주세요.\n"
+
+    user_prompt = (
+        f"다음 주제/키워드에 대해 독자에게 실질적인 해결책을 주는 고품질 블로그 글을 작성해 주세요:\n주제: {topic}\n"
+        f"반드시 대한민국 법령/판례 기준의 E-E-A-T 준칙 박스, 동적 H2/H3 소제목, 실무 비교/절차 <table> 표를 포함하십시오.{links_text}"
+    )
 
     last_error = None
     for model_name in MODELS:

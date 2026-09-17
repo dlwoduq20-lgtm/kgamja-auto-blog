@@ -16,15 +16,25 @@ MODELS = [
 ]
 
 
-def generate_article_jp(topic: str) -> dict:
+def generate_article_jp(topic: str, related_articles: list = None) -> dict:
     """
-    Generate a full SEO-optimized Japanese article matching Japanese Google SEO and reader intent.
+    Generate a full SEO-optimized Japanese article matching Japanese Google SEO, E-E-A-T, and internal links.
     """
     if not GEMINI_API_KEY:
         raise ValueError("GEMINI_API_KEY is not set.")
 
     client = genai.Client(api_key=GEMINI_API_KEY)
-    user_prompt = f"以下のテーマについて、読者のピンチを解決する実体験談＋具体的マニュアル形式のブログ記事を作成してください：\nテーマ: {topic}"
+    
+    links_text = ""
+    if related_articles:
+        links_text = "\n[内部リンク候補記事リスト (Contextual Internal Linking)]\n" + "\n".join(
+            [f"- 記事: '{a.get('title')}' -> URL: {a.get('url')}" for a in related_articles[:3]]
+        ) + "\n上記リストから本文の文脈に最も合致する1〜2件を選び、本文中に <a href='URL'>記事タイトル</a> の形式で自然な案内リンクボックスを挿入してください。\n"
+
+    user_prompt = (
+        f"以下のテーマについて、読者のピンチを解決する実体験談＋具体的マニュアル形式のブログ記事を作成してください：\nテーマ: {topic}\n"
+        f"必ず日本の法令・判例基準のE-E-A-T監修基準ボックス、動的H2/H3見出し、実務比較/手順<table>表を含めてください。{links_text}"
+    )
 
     last_error = None
     for model_name in MODELS:

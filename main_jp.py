@@ -30,11 +30,40 @@ def save_queue_jp(queue):
         json.dump(queue, f, ensure_ascii=False, indent=2)
 
 
+def get_related_jp_articles(current_topic: str = "") -> list:
+    """
+    Fetch published posts from Blogger API to find related articles for contextual internal linking.
+    """
+    try:
+        from blogger_client import get_blogger_service
+        if os.path.exists("blogger_credentials.json"):
+            with open("blogger_credentials.json", "r", encoding="utf-8") as f:
+                c = json.load(f)
+            service = get_blogger_service(c)
+            posts = service.posts().list(blogId=BLOG_ID_JP, maxResults=20).execute().get("items", [])
+            candidates = []
+            for p in posts:
+                t = p.get("title", "")
+                u = p.get("url", "")
+                if u and t and t.lower() != current_topic.lower():
+                    candidates.append({"title": t, "url": u})
+            return candidates[:3]
+    except Exception as e:
+        print(f"ℹ️ [内部リンク] 候補記事取得案内: {e}")
+    return []
+
+
 def process_topic_jp(topic: str):
     print(f"\n🇯🇵 [1/3] 日本語記事＆マンガ画像企画開始: '{topic}'")
-    print("⏳ Geminiモデルで一人称体験談、Google Japan SEO最適化本文、2Dマンガプロンプトを生成中...")
     
-    article = generate_article_jp(topic)
+    related = get_related_jp_articles(current_topic=topic)
+    if related:
+        print(f"🔗 [内部リンク] 関連記事候補 {len(related)}件を連動:")
+        for r in related:
+            print(f"   - {r['title']}")
+
+    print("⏳ Geminiモデルで一人称体験談、E-E-A-T監修基準、動的見出し、2Dマンガプロンプトを生成中...")
+    article = generate_article_jp(topic, related_articles=related)
     
     title = article.get("title", topic)
     category = article.get("category", "暮らしの法律")
@@ -57,18 +86,38 @@ def process_topic_jp(topic: str):
     print(f"\n🚀 [2/3] 챗GPT(ChatGPT) スタイル 3Dカードニュースサムネイル生成中...")
     image_bytes = fetch_chatgpt_thumbnail_bytes(title, language="ja", category=category)
 
-    # Google Japan SEO JSON-LD Schema Markup
-    schema_ld = {
-        "@context": "https://schema.org",
-        "@type": "BlogPosting",
-        "headline": title,
-        "description": excerpt,
-        "articleSection": category,
-        "keywords": tags,
-        "inLanguage": "ja",
-        "mainEntityOfPage": {"@type": "WebPage"}
-    }
-    content_html += f"\n<script type=\"application/ld+json\">\n{json.dumps(schema_ld, ensure_ascii=False, indent=2)}\n</script>\n"
+    # Google Japan SEO JSON-LD Schema Markup (BlogPosting & FAQPage)
+    schema_entities = [
+        {
+            "@context": "https://schema.org",
+            "@type": "BlogPosting",
+            "headline": title,
+            "description": excerpt,
+            "articleSection": category,
+            "keywords": tags,
+            "inLanguage": "ja",
+            "mainEntityOfPage": {"@type": "WebPage"}
+        }
+    ]
+    if article.get("faq_schema"):
+        schema_entities.append({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": [
+                {
+                    "@type": "Question",
+                    "name": item.get("question"),
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": item.get("answer")
+                    }
+                }
+                for item in article["faq_schema"] if item.get("question") and item.get("answer")
+            ]
+        })
+
+    for s in schema_entities:
+        content_html += f"\n<script type=\"application/ld+json\">\n{json.dumps(s, ensure_ascii=False, indent=2)}\n</script>\n"
 
     # 3. Publish to Japanese Blogger via official REST API v3
     print(f"\n🚀 [3/3] Google Blogger 公式 REST API v3で記事＆2Dマンガイラストを直接投稿中...")

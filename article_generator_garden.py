@@ -19,7 +19,7 @@ MODELS = [
 ]
 
 
-def generate_article_garden(keyword: str, topic_angle: str = "", avoid_topics: list = None, competitor_urls: str = "None") -> dict:
+def generate_article_garden(keyword: str, topic_angle: str = "", avoid_topics: list = None, competitor_urls: str = "None", related_articles: list = None) -> dict:
     '''
     Generate a complete SEO-optimized Home & Garden article with images and schema markup.
     '''
@@ -29,13 +29,19 @@ def generate_article_garden(keyword: str, topic_angle: str = "", avoid_topics: l
     client = genai.Client(api_key=GEMINI_API_KEY)
     avoid_str = ", ".join(avoid_topics) if avoid_topics else "None"
 
+    links_text = ""
+    if related_articles:
+        links_text = "\n\n[INTERNAL LINKING CANDIDATES]\n" + "\n".join(
+            [f"- Guide: '{a.get('title')}' -> URL: {a.get('url')}" for a in related_articles[:3]]
+        ) + "\nSeamlessly embed 1 or 2 contextual internal links into appropriate sections using <a href='URL'>Title</a>.\n"
+
     formatted_user_prompt = (
         USER_PROMPT_TEMPLATE_GARDEN
         .replace("{KEYWORD}", keyword)
         .replace("{TOPIC}", topic_angle or f"Complete practical guide to {keyword} for home gardeners")
         .replace("{COMPETITOR_URLS}", competitor_urls)
         .replace("{AVOID_TOPICS}", avoid_str)
-    )
+    ) + links_text
 
     last_error = None
     data = None
