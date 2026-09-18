@@ -75,9 +75,9 @@ def apply_card_news_typography_overlay(
         img = Image.open(io.BytesIO(image_bytes)).convert("RGB")
         w, h = img.size
 
-        # Crop bottom 35px to eliminate any third-party diffusion watermark
+        # Crop bottom 65px to eliminate any third-party diffusion watermark
         if h > 300:
-            img = img.crop((0, 0, w, h - 35)).resize((w, h), Image.Resampling.LANCZOS)
+            img = img.crop((0, 0, w, max(100, h - 65))).resize((w, h), Image.Resampling.LANCZOS)
 
         overlay = Image.new("RGBA", (w, h), (0, 0, 0, 0))
         draw = ImageDraw.Draw(overlay)

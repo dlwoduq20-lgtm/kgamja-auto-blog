@@ -6,10 +6,12 @@ Produces consistent flat vector illustrations locked to the user's pastoral styl
 - Rolling hills, gentle gradient skies, soft warm sunlight glow
 - Zero text, zero logos, 100% flat 2D vector illustration
 '''
+import io
 import urllib.parse
 import random
 import requests
 import time
+from PIL import Image
 
 STYLE_BLOCK = (
     "flat vector illustration style, modern editorial gardening children's-book aesthetic, "
@@ -18,6 +20,24 @@ STYLE_BLOCK = (
     "clean geometric vector shapes, gentle warm sunlight glow, "
     "strictly 2D flat vector art, no 3D rendering, no photorealism, no text, no logos, no watermarks, no barren empty landscape"
 )
+
+
+def remove_watermark_crop(image_bytes: bytes) -> bytes:
+    '''
+    Eradicates any third-party watermark (e.g. pollinations.ai) by cropping
+    off the bottom 65px of the image and resampling back to standard 16:9 (1024x576).
+    '''
+    try:
+        im = Image.open(io.BytesIO(image_bytes))
+        w, h = im.size
+        cropped = im.crop((0, 0, w, max(100, h - 65)))
+        final_im = cropped.resize((1024, 576), Image.Resampling.LANCZOS)
+        out = io.BytesIO()
+        final_im.save(out, format="JPEG", quality=94)
+        return out.getvalue()
+    except Exception as e:
+        print(f"⚠️ Garden watermark crop fallback: {e}")
+        return image_bytes
 
 
 def fetch_garden_image_bytes(generation_prompt: str) -> bytes:
@@ -67,7 +87,7 @@ def fetch_garden_image_bytes(generation_prompt: str) -> bytes:
             res = requests.get(url, timeout=cfg["timeout"])
             if res.status_code == 200 and len(res.content) > 5000:
                 print(f"[OK] Garden illustration downloaded ({len(res.content)} bytes, attempt {attempt})")
-                return res.content
+                return remove_watermark_crop(res.content)
             elif res.status_code == 429:
                 print(f"[Wait] Pollinations rate limit (429)... waiting 10s")
                 time.sleep(10)

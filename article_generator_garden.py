@@ -6,6 +6,7 @@ import json
 import re
 import time
 import base64
+import random
 from google import genai
 from google.genai import types
 from config import GEMINI_API_KEY
@@ -18,14 +19,61 @@ MODELS = [
     "gemini-3-flash-preview"
 ]
 
+ARCHETYPES_GARDEN = [
+    {
+        "name": "seasonal_zone_first",
+        "instruction": (
+            "ARTICLE OUTLINE ARCHETYPE A (Climate Zone & Seasonal Timing First):\n"
+            "1. Engaging problem intro + E-E-A-T note with Last Verified date badge\n"
+            "2. 'Critical Frost Dates & Soil Temp Benchmarks': Zone-by-zone schedule (Zones 4-10)\n"
+            "3. Core Planting & Care Protocols: Sun, deep watering, spacing (Dynamic H2/H3)\n"
+            "4. Responsive HTML <table>: Seed Starting vs Nursery Transplants (Timing, Cost, Success Rate)\n"
+            "5. 'Which Method or Cultivar Fits Your Garden?' Decision Matrix table\n"
+            "6. Troubleshooting common pests/diseases with organic IPM remedies\n"
+            "7. Horticultural FAQ (FAQPage schema)\n"
+            "8. Horticultural Research & Extension Sources (References) section"
+        )
+    },
+    {
+        "name": "soil_ecology_first",
+        "instruction": (
+            "ARTICLE OUTLINE ARCHETYPE B (Soil Ecology & Diagnostic Guide First):\n"
+            "1. Engaging problem intro + E-E-A-T note with Last Verified date badge\n"
+            "2. 'Soil Biology, pH, & Drainage': Heavy clay vs sandy loam amendments\n"
+            "3. Diagnostic Breakdown: Nutrient Deficiencies (N-P-K) vs Fungal Blights (Dynamic H2/H3)\n"
+            "4. Responsive HTML <table>: Organic Remedies vs Conventional Interventions (Application, Safety, Cost)\n"
+            "5. 'Which Method or Cultivar Fits Your Garden?' Decision Matrix table\n"
+            "6. Companion planting & natural pollinators\n"
+            "7. Horticultural FAQ (FAQPage schema)\n"
+            "8. Horticultural Research & Extension Sources (References) section"
+        )
+    },
+    {
+        "name": "cultivar_matrix_first",
+        "instruction": (
+            "ARTICLE OUTLINE ARCHETYPE C (Cultivar Comparison & Space Optimization First):\n"
+            "1. Engaging problem intro + E-E-A-T note with Last Verified date badge\n"
+            "2. 'Top Proven Cultivars': Disease resistance, days to maturity, flavor profiles\n"
+            "3. Small Space & Raised Bed Architecture: Square-foot layout and vertical trellising (Dynamic H2/H3)\n"
+            "4. Comprehensive Cultivar Performance HTML <table> (Variety, Days to Harvest, Zone Fit, Yield)\n"
+            "5. 'Which Method or Cultivar Fits Your Garden?' Decision Matrix table\n"
+            "6. Common cultural mistakes & end-of-season cleanup\n"
+            "7. Horticultural FAQ (FAQPage schema)\n"
+            "8. Horticultural Research & Extension Sources (References) section"
+        )
+    }
+]
+
 
 def generate_article_garden(keyword: str, topic_angle: str = "", avoid_topics: list = None, competitor_urls: str = "None", related_articles: list = None) -> dict:
     '''
-    Generate a complete SEO-optimized Home & Garden article with images and schema markup.
+    Generate a complete SEO-optimized Home & Garden article with images, schema markup,
+    decision matrix, sources section, and structural archetype diversity.
     '''
     if not GEMINI_API_KEY:
         raise ValueError("GEMINI_API_KEY is not set.")
 
+    archetype = random.choice(ARCHETYPES_GARDEN)
     client = genai.Client(api_key=GEMINI_API_KEY)
     avoid_str = ", ".join(avoid_topics) if avoid_topics else "None"
 
@@ -35,13 +83,24 @@ def generate_article_garden(keyword: str, topic_angle: str = "", avoid_topics: l
             [f"- Guide: '{a.get('title')}' -> URL: {a.get('url')}" for a in related_articles[:3]]
         ) + "\nSeamlessly embed 1 or 2 contextual internal links into appropriate sections using <a href='URL'>Title</a>.\n"
 
-    formatted_user_prompt = (
+    base_prompt = (
         USER_PROMPT_TEMPLATE_GARDEN
         .replace("{KEYWORD}", keyword)
         .replace("{TOPIC}", topic_angle or f"Complete practical guide to {keyword} for home gardeners")
         .replace("{COMPETITOR_URLS}", competitor_urls)
         .replace("{AVOID_TOPICS}", avoid_str)
-    ) + links_text
+    )
+
+    formatted_user_prompt = (
+        f"{base_prompt}\n\n"
+        f"[STRUCTURAL ARCHETYPE DIRECTIVE]\n"
+        f"Apply {archetype['instruction']}\n\n"
+        f"MANDATORY RIGOR RULES:\n"
+        f"1. ❌ Strictly ban exaggerated hype ('miracle harvest', 'guaranteed foolproof yield', etc.). Provide realistic constraints.\n"
+        f"2. Insert the E-E-A-T Callout Box with 'Last Verified: September 18, 2026' immediately following the introduction.\n"
+        f"3. Include both a comparative <table> and a scenario-based 'Which Method or Cultivar Fits Your Garden? (Decision Matrix)' table.\n"
+        f"4. End the post with the dedicated 'Horticultural Research & Extension Sources (References)' section.{links_text}"
+    )
 
     last_error = None
     data = None
