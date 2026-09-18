@@ -70,10 +70,10 @@ def process_topic_us(item: dict):
     article = generate_article_saas(keyword=keyword, topic_angle=topic, related_articles=related)
     
     title = article.get("h1", article.get("meta_title", topic))
-    content_html = article.get("content_html", "")
-    tags = article.get("tags", [category, "SaaS", "Software Review", "B2B Tools"])
-    if category not in tags:
-        tags.insert(0, category)
+    category = article.get("category", "E-Commerce & Retail Tech")
+    raw_tags = article.get("tags", ["SaaS", "Software Review", "B2B Tools"])
+    # Clean label structure: Category first, followed by up to 4 specific topic tags
+    labels = [category] + [t for t in raw_tags if t != category][:4]
         
     excerpt = article.get("meta_description", "")
     image_prompt_en = article.get("image_prompt_en", f"modern tech illustration representing {keyword}")
@@ -81,13 +81,13 @@ def process_topic_us(item: dict):
     print(f"\n✅ [Article Generation Complete]")
     print(f"📌 Title: {title}")
     print(f"📂 Category: {category}")
-    print(f"🏷️  Tags: {', '.join(tags)}")
+    print(f"🏷️  Labels: {', '.join(labels)}")
     print(f"📝 Meta Description ({len(excerpt)} chars): {excerpt}")
     print(f"📊 Content Length: {len(content_html)} characters")
 
-    # 2. Fetch 2D Tech Illustration Bytes
-    print(f"\n🚀 [2/3] Generating modern 2D vector tech illustration via FLUX...")
-    image_bytes = fetch_saas_image_bytes(image_prompt_en)
+    # 2. Fetch 100% Watermark-Free 2D Tech Illustration / StackPilot UI Banner
+    print(f"\n🚀 [2/3] Generating 100% watermark-free StackPilot editorial banner...")
+    image_bytes = fetch_saas_image_bytes(image_prompt_en, title=title, category=category)
 
     # Inject JSON-LD Schema for Google Rich Snippets (BlogPosting & FAQPage)
     schema_entities = [
@@ -131,7 +131,7 @@ def process_topic_us(item: dict):
     result = publish_blogger_post(
         title=title,
         content_html=content_html,
-        labels=tags,
+        labels=labels,
         image_bytes=image_bytes,
         blog_id=BLOG_ID_US
     )
