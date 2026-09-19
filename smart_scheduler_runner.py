@@ -72,6 +72,8 @@ def main():
         success = run_all_publish()
         if success:
             today_history.append(f"manual_{kst_now.strftime('%H%M')}")
+            if current_hour in TARGET_HOURS and f"hour_{current_hour}" not in today_history:
+                today_history.append(f"hour_{current_hour}")
             history[today_str] = today_history
             save_history(history)
             sys.exit(0)

@@ -44,4 +44,5 @@ jobs:
           git config --local user.name "github-actions[bot]"
           git add topics_queue*.json published_history.json
           git diff --quiet && git diff --staged --quiet || git commit -m "chore: auto-update queue and history [skip ci]"
+          git pull --rebase origin main || true
           git push
