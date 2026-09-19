@@ -77,6 +77,7 @@ def process_topic_us(item: dict):
         
     excerpt = article.get("meta_description", "")
     image_prompt_en = article.get("image_prompt_en", f"modern tech illustration representing {keyword}")
+    content_html = article.get("content_html", "")
 
     print(f"\n✅ [Article Generation Complete]")
     print(f"📌 Title: {title}")
