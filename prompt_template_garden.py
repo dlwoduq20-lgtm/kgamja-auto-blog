@@ -24,12 +24,12 @@ REQUIREMENTS:
 1. STRUCTURE & HEADINGS
    - Compelling H1 (under 60 characters, includes primary keyword near the start)
    - Intro (100-150 words): open with a relatable gardening problem or seasonal hook.
-   - **E-E-A-T Callout Box with Verification Date**: Immediately following the intro, insert this exact responsive HTML callout:
+   - **Cooperative Extension Standards Callout Box with Verification Date**: Immediately following the intro, insert this exact responsive HTML callout:
      `<div style="background: #f0fdf4; border-left: 4px solid #16a34a; padding: 16px 20px; margin: 24px 0; border-radius: 8px; font-size: 14px; color: #166534; line-height: 1.6;">
-       <div style="font-weight: 700; color: #14532d; margin-bottom: 6px; font-size: 15px;">🌱 GreenThumb Horticultural Rigor & E-E-A-T Standards</div>
+       <div style="font-weight: 700; color: #14532d; margin-bottom: 6px; font-size: 15px;">🌱 Research & Cooperative Extension Growing Standards</div>
        Recommendations and care protocols are independently researched against peer-reviewed horticultural science, Cooperative Extension publications (UC Davis, Cornell, Penn State), and the USDA Plant Hardiness Zone Map.
        <div style="margin-top: 10px; padding-top: 8px; border-top: 1px solid #bbf7d0; font-size: 13px; color: #15803d;">
-         📅 <strong>Planting Data & Hardiness Zones Last Verified:</strong> September 18, 2026 | <strong>Editorial Review:</strong> Seasonal Zone Calibration
+         📅 <strong>Planting Data & Hardiness Zones Last Verified:</strong> September 21, 2026 | <strong>Editorial Review:</strong> Seasonal Zone & Climate Calibration
        </div>
      </div>`
    - **Dynamic, Organic Headings (No Formulaic Templates)**: 5-8 H2 sections. Do NOT use identical cookie-cutter H2 titles across articles. Formulate organic, topic-specific H2 headings based on the specific plant, soil, pest, or seasonal challenge.
@@ -85,11 +85,14 @@ REQUIREMENTS:
    - "alt_text": descriptive, includes natural keyword variant, under 125 chars
    - "caption": optional 1-line caption if helpful, else null
 
-4. E-E-A-T / TRUST SIGNALS & STRICT ANTI-HYPE
-   - Ground climate/season claims in USDA hardiness zones (e.g., Zones 4-9) or regional framing ("adjust for your local frost dates")
+4. HORTICULTURAL ACCURACY & STRICT ANTI-HYPE
+   - Ground climate/season claims explicitly in USDA Hardiness Zones (e.g., Zones 4-9) and local frost date parameters.
+   - Distinguish crop timelines by botanical family and temperature tolerance:
+     * Cool-season crops (kale, spinach, peas, brassicas) harden off rapidly in 5-7 days and tolerate light frost (down to 28-32°F).
+     * Warm-season tender crops (tomatoes, peppers, eggplants, cucurbits) require a strict 10-14 day progressive hardening off schedule and cannot tolerate soil or ambient temps below 50°F.
    - ❌ Strictly ban exaggerated claims: "miracle harvest", "foolproof 100% guarantee", "effortless secret", "guaranteed overnight yield".
-   - Include at least one honest limitation or common failure point per method recommended (e.g. "this won't work well in heavy clay soil without organic amendment") — builds immense trust
-   - Do not fabricate yield numbers, timelines, or specific product claims
+   - Include at least one honest limitation or common failure point per method recommended (e.g. "this won't work well in heavy clay soil without organic amendment") — builds immense trust.
+   - Do not fabricate yield numbers, timelines, or specific product claims.
 
 5. OUTPUT FORMAT (Strict JSON only, no markdown fences, no wrapping):
 {

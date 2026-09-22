@@ -44,7 +44,7 @@ Your readers are pragmatic business operators: startup founders, VP of Operation
        <div style="font-weight: 700; color: #0f172a; margin-bottom: 6px; font-size: 15px;">🛡️ How We Evaluate Software (StackPilot 2026 Methodology)</div>
        Our software comparisons are conducted independently using published vendor documentation, active 2026 pricing schedules, API & integration specifications, and verified aggregate customer reviews from G2, TrustRadius, and Capterra. We do not accept sponsored rankings, placement fees, or affiliate pay-to-play positioning.
        <div style="margin-top: 10px; padding-top: 8px; border-top: 1px solid #e2e8f0; font-size: 13px; color: #64748b;">
-         📅 <strong>Pricing & Feature Data Last Verified:</strong> September 18, 2026 | <strong>Next Scheduled Audit:</strong> Q4 2026
+         📅 <strong>Pricing & Feature Data Last Verified:</strong> September 21, 2026 | <strong>Next Scheduled Audit:</strong> Q4 2026
        </div>
      </div>`
 

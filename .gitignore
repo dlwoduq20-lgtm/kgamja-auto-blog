@@ -11,5 +11,29 @@ verify_blogs.py
 test_publish_kr.py
 post_dump.html
 set_github_secret.py
+*.txt
+check_*.py
+test_*.py
+scan_*.py
+dump_*.py
+patch_*.py
+extract_*.py
+parse_*.py
+inspect_*.py
+clean_*.py
+fetch_*.py
+save_*.py
+top_*.py
+run_*.py
+rebuild_*.py
+generate_final_*.py
+find_*.py
+preview_*.py
+list_*.py
+audit_*.json
+live_posts_*.json
+flagged_posts.json
+scan_results.json
+*_sample_post.json
 
 
