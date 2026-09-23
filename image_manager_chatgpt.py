@@ -95,17 +95,20 @@ def apply_card_news_typography_overlay(
             main_text = clean_title[:t_split.index("!") + 1].strip()
         elif ":" in t_split:
             main_text = clean_title[:t_split.index(":")].strip()
+        elif "," in t_split and 8 <= t_split.index(",") <= 24:
+            main_text = clean_title[:t_split.index(",")].strip()
         else:
-            main_text = clean_title[:20].strip()
+            main_text = clean_title[:24].strip()
+        main_text = main_text.rstrip(',-·: ')
 
         # Load bold fonts
         if language == "ja":
-            font_title = get_japanese_font(36 if len(main_text) <= 16 else 30)
+            font_title = get_japanese_font(36 if len(main_text) <= 16 else (30 if len(main_text) <= 22 else 26))
             font_badge = get_japanese_font(18)
             badge_category = category if category else "暮らしの法律"
             badge_color = (13, 148, 136, 255) # Teal
         else:
-            font_title = get_korean_font(38 if len(main_text) <= 18 else 32)
+            font_title = get_korean_font(38 if len(main_text) <= 16 else (32 if len(main_text) <= 22 else 26))
             font_badge = get_korean_font(18)
             badge_category = category if category else "생활법률"
             badge_color = (234, 88, 12, 255) # Amber Orange
@@ -148,6 +151,66 @@ def apply_card_news_typography_overlay(
     except Exception as e:
         print(f"⚠️ [Typography Overlay Error] {e}. Using raw image.")
         return image_bytes
+
+
+def fetch_cartoon_render_from_flux(title: str, category: str = None) -> bytes:
+    """
+    Generate a pristine, text-free 2D modern Korean cartoon / webtoon comic scene using diffusion.
+    STRICTLY avoids passing non-English text or requesting text generation to prevent corrupted glyphs.
+    """
+    combined = f"{title} {category or ''}".lower()
+
+    if any(k in combined for k in ["보이스피싱", "사기", "추심", "스팸", "지급정지", "해킹"]):
+        scene = "determined Korean character holding glowing golden shield blocking phone scam, cyber financial protection in comic style"
+    elif any(k in combined for k in ["택배", "배달", "이물질", "환불", "중고", "직거래", "소비자", "피해"]):
+        scene = "relatable Korean consumer successfully receiving full refund for delivered package, smiling with relief in comic style"
+    elif any(k in combined for k in ["부동산", "전세", "월세", "임대", "등기부", "이사", "아파트", "계약서"]):
+        scene = "cheerful young Korean tenant holding house keys and apartment lease contract document, cozy sunny apartment in comic style"
+    elif any(k in combined for k in ["퇴직금", "임금", "급여", "근로", "알바", "휴직", "노동청", "주휴"]):
+        scene = "joyful Korean office worker cheering with paycheck envelope and bank passbook, bright office desk in comic style"
+    elif any(k in combined for k in ["연금", "상속", "세금", "증여", "적금", "대출", "금리", "리볼빙", "신용", "가산세"]):
+        scene = "smart Korean professional calculating financial savings with calculator and bankbook, stacks of golden coins in comic style"
+    elif any(k in combined for k in ["소송", "합의", "법률", "판결", "내용증명", "교통사고", "과태료"]):
+        scene = "confident Korean citizen holding signed legal agreement document, golden scales of justice in friendly law office in comic style"
+    else:
+        scene = "friendly smart Korean person giving helpful guidance thumbs-up, bright desk with useful guides and documents in comic style"
+
+    prompt = (
+        f"2D modern Korean webtoon comic illustration, {scene}, "
+        f"clean crisp black outline drawing, charming relatable Korean character, "
+        f"vibrant flat pastel colors, modern Korean instatoon manhwa comic art, clear cel shading, "
+        f"bright cheerful lighting, strictly 2D flat illustration, no 3D rendering, no CGI, no photorealism, no text"
+    )
+
+    encoded = urllib.parse.quote(prompt)
+    print(f"[2D Cartoon Engine] Generating 2D comic illustration: {prompt[:70]}...")
+
+    configs = [
+        {"model": "flux", "timeout": 45},
+        {"model": None, "timeout": 30},
+        {"model": None, "timeout": 30}
+    ]
+
+    for attempt, cfg in enumerate(configs, 1):
+        seed = random.randint(1000, 999999)
+        m = f"model={cfg['model']}&" if cfg["model"] else ""
+        url = f"https://image.pollinations.ai/prompt/{encoded}?{m}width=1024&height=576&nologo=true&seed={seed}"
+
+        try:
+            res = requests.get(url, timeout=cfg["timeout"])
+            if res.status_code == 200 and len(res.content) > 5000:
+                print(f"✅ [2D Cartoon Engine] 2D 카툰 일러스트 다운로드 완료 ({len(res.content)} bytes, attempt {attempt})")
+                return res.content
+        except Exception as e:
+            print(f"⚠️ [2D Cartoon Engine] Attempt {attempt} error: {e}")
+
+    try:
+        backup = requests.get("https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=1024&h=576&fit=crop&q=80", timeout=15)
+        if backup.status_code == 200:
+            return backup.content
+    except Exception:
+        pass
+    return None
 
 
 def fetch_3d_render_from_flux(title: str, category: str = None, language: str = "ko") -> bytes:
@@ -213,30 +276,26 @@ def fetch_3d_render_from_flux(title: str, category: str = None, language: str = 
 
 def fetch_chatgpt_thumbnail_bytes(title: str, language: str = "ko", category: str = None) -> bytes:
     """
-    Generate ChatGPT (OpenAI) style 3D card-news thumbnail for blog posts.
-    
-    Workflow:
-    1. Attempts OpenAI Image API (chatgpt-image-latest / gpt-image-1) using the user's prompt template.
-    2. If OpenAI has no credits (429) or is unavailable:
-       Falls back to generating a clean, textless 3D Pixar render and applying a crystal-clear,
-       bold Korean/Japanese typography banner via Pillow (PIL). Zero distorted characters guaranteed.
+    Generate card-news thumbnail for blog posts:
+    - Korean blog (language='ko'): 2D Korean webtoon cartoon illustration + HD typography overlay.
+    - Japanese blog (language='ja'): 3D Pixar character scene + HD typography overlay.
     """
+    if language == "ko":
+        print("[KR Cartoon Thumbnail] Generating 2D Korean webtoon cartoon thumbnail...")
+        raw_cartoon_bytes = fetch_cartoon_render_from_flux(title, category=category)
+        if raw_cartoon_bytes:
+            final_thumb = apply_card_news_typography_overlay(raw_cartoon_bytes, title, category=category, language="ko")
+            return final_thumb
+        return None
+
     api_key = os.environ.get("OPENAI_API_KEY")
 
-    if language == "ja":
-        prompt = (
-            f"「{title}」\n"
-            f"このタイトルに合うブログサムネイル画像を作成してください。"
-            f"YouTubeカードニューススタイル、鮮明で太い日本語テキストタイポグラフィ、"
-            f"可愛い3Dキャラクター（ピクサー風）、関連する3D金融・法律アイコン、明るく清潔なスタジオ照明、高画質3Dレンダリング。"
-        )
-    else:
-        prompt = (
-            f"{title}\n"
-            f"이 제목과 어울리는 블로그 썸네일 이미지 만들어줘."
-            f"유튜브 카드뉴스 썸네일 스타일, 선명하고 굵은 한글 텍스트 타이포그래피, "
-            f"귀여운 3D 캐릭터(픽사/디즈니 스타일), 주제와 어울리는 3D 금융/법률 아이콘 오브젝트, 화사하고 깔끔한 3D 스튜디오 조명."
-        )
+    prompt = (
+        f"「{title}」\n"
+        f"このタイトルに合うブログサムネイル画像を作成してください。"
+        f"YouTubeカードニューススタイル、鮮明で太い日本語テキストタイポグラフィ、"
+        f"可愛い3Dキャラクター（ピクサー風）、関連する3D金融・法律アイコン、明るく清潔なスタジオ照明、高画質3Dレンダリング。"
+    )
 
     if api_key:
         headers = {
@@ -261,18 +320,26 @@ def fetch_chatgpt_thumbnail_bytes(title: str, language: str = "ko", category: st
                         print(f"🎉 [ChatGPT Image] Successfully generated 3D thumbnail via OpenAI ({len(img_res.content)} bytes)!")
                         return img_res.content
                 elif res.status_code == 429:
-                    print(f"⚠️ [ChatGPT Image] OpenAI API 429: 크레딧 잔액 부족 ($0). platform.openai.com/settings/organization/billing 에서 충전 시 공식 ChatGPT 이미지 모델이 사용됩니다.")
+                    print(f"⚠️ [ChatGPT Image] OpenAI API 429: 크레딧 잔액 부족 ($0).")
                     break
                 else:
                     print(f"⚠️ [ChatGPT Image] {model} status {res.status_code}: {res.text[:120]}")
             except Exception as e:
                 print(f"⚠️ [ChatGPT Image] Error: {e}")
 
-    # Fallback: Clean 3D Pixar render + Crisp Typography Overlay
-    print("[ChatGPT Image Fallback] Using Fail-Safe 3D Pixar Scene + HD Card-News Typography Overlay...")
+    # Fallback for JP: Clean 3D Pixar render + Crisp Typography Overlay
+    print("[ChatGPT Image Fallback] Using Fail-Safe 3D Scene + HD Card-News Typography Overlay...")
     raw_3d_bytes = fetch_3d_render_from_flux(title, category=category, language=language)
     if raw_3d_bytes:
         final_thumb = apply_card_news_typography_overlay(raw_3d_bytes, title, category=category, language=language)
         return final_thumb
 
     return None
+
+
+def fetch_cartoon_thumbnail_bytes(title: str, category: str = None) -> bytes:
+    """
+    Explicit helper to generate 2D Korean cartoon card-news thumbnail bytes.
+    """
+    return fetch_chatgpt_thumbnail_bytes(title, language="ko", category=category)
+

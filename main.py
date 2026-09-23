@@ -11,7 +11,7 @@ import argparse
 sys.stdout.reconfigure(encoding='utf-8')
 
 from article_generator import generate_article
-from image_manager_chatgpt import fetch_chatgpt_thumbnail_bytes
+from image_manager_chatgpt import fetch_chatgpt_thumbnail_bytes, fetch_cartoon_thumbnail_bytes
 from blogger_client import publish_blogger_post, BLOG_ID_KR
 from config import BLOG_URL
 
@@ -82,9 +82,9 @@ def process_topic(topic: str):
     print(f"📝 메타 요약 ({len(excerpt)}자): {excerpt}")
     print(f"📊 본문 글자 수: {len(content_html)} 글자")
 
-    # 2. Fetch 3D Card-News Thumbnail Bytes (ChatGPT DALL-E / 3D Style)
-    print(f"\n🚀 [2/3] 챗GPT 스타일 3D 카드뉴스 썸네일 생성 중...")
-    image_bytes = fetch_chatgpt_thumbnail_bytes(title, language="ko", category=category)
+    # 2. Fetch 2D Cartoon Card-News Thumbnail Bytes
+    print(f"\n🚀 [2/3] 2D 카툰/웹툰 스타일 카드뉴스 썸네일 생성 중...")
+    image_bytes = fetch_cartoon_thumbnail_bytes(title, category=category)
 
     # Google SEO JSON-LD Schema Markup (BlogPosting & FAQPage)
     schema_entities = [
