@@ -12,6 +12,33 @@ BLOG_ID_JP = "4884263507030240234"
 SCOPES = ["https://www.googleapis.com/auth/blogger"]
 
 
+import requests
+import re
+
+
+def upload_image_to_cdn(image_bytes: bytes) -> str:
+    """
+    Upload image bytes to CDN to obtain a permanent https:// image URL.
+    This enables Blogger's thumbnail engine to immediately extract and display
+    thumbnails on the homepage without requiring manual editor re-saves.
+    """
+    if not image_bytes:
+        return None
+    try:
+        url = "https://catbox.moe/user/api.php"
+        res = requests.post(
+            url,
+            data={"reqtype": "fileupload"},
+            files={"fileToUpload": ("illustration.jpg", image_bytes, "image/jpeg")},
+            timeout=15
+        )
+        if res.status_code == 200 and res.text.startswith("http"):
+            return res.text.strip()
+    except Exception as e:
+        print(f"⚠️ Image CDN upload failed, falling back to base64: {e}")
+    return None
+
+
 def get_blogger_service(credentials_dict: dict):
     """
     Build Blogger service using OAuth2 credentials dictionary.
@@ -55,14 +82,29 @@ def publish_blogger_post(
 
     # Embed 2D illustration if provided
     if image_bytes:
-        b64_data = base64.b64encode(image_bytes).decode("utf-8")
+        cdn_url = upload_image_to_cdn(image_bytes)
+        if cdn_url:
+            img_src = cdn_url
+        else:
+            b64_data = base64.b64encode(image_bytes).decode("utf-8")
+            img_src = f"data:image/jpeg;base64,{b64_data}"
+
         image_html = (
             f'<div style="text-align: center; margin: 0 0 25px 0;">\n'
-            f'  <img src="data:image/jpeg;base64,{b64_data}" alt="{title}" '
+            f'  <img src="{img_src}" alt="{title}" '
             f'style="max-width: 100%; height: auto; border-radius: 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.12); display: inline-block;" />\n'
             f'</div>\n\n'
         )
-        content_html = image_html + content_html
+        if "<!--more-->" in content_html:
+            content_html = image_html + content_html
+        else:
+            p_m = re.search(r'(<p[^>]*>.*?</p>)', content_html, re.S)
+            if p_m:
+                lead_p = p_m.group(1)
+                remainder = content_html.replace(lead_p, '', 1)
+                content_html = f"{lead_p}\n<!--more-->\n{image_html}{remainder}"
+            else:
+                content_html = image_html + content_html
 
     body = {
         "kind": "blogger#post",
