@@ -2,8 +2,9 @@ name: 24/7 Smart Auto Post to Google Blogger (4 Global Blogs)
 
 on:
   schedule:
-    # 20분마다 실행하여 GitHub 클라우드 러너를 항상 깨어있게 유지 (슬립/누락 완벽 방지)
-    - cron: '*/20 * * * *'
+    # 한국 시각(KST) 09:00, 12:00, 17:00, 20:00 (UTC 00:00, 03:00, 08:00, 11:00)
+    # 20분 주기(하루 72회) -> 하루 4회로 최적화하여 2,000분 무료 사용량 초과 완벽 방지
+    - cron: '0 0,3,8,11 * * *'
   workflow_dispatch: # 웹에서 즉시 수동 실행 가능
 
 permissions:
@@ -21,6 +22,7 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.10'
+          cache: 'pip'
 
       - name: 필수 패키지 설치
         run: |

@@ -80,25 +80,35 @@ def main():
         else:
             sys.exit(1)
 
+    # 딜레이 감안 목표 시간 매칭 (정확히 일치하거나, Actions 큐 지연으로 30분~1시간 늦게 실행되어도 정상 처리)
+    target_slot = None
     if current_hour in TARGET_HOURS:
-        hour_key = f"hour_{current_hour}"
+        target_slot = current_hour
+    else:
+        for th in sorted(TARGET_HOURS, reverse=True):
+            if current_hour >= th:
+                target_slot = th
+                break
+
+    if target_slot is not None:
+        hour_key = f"hour_{target_slot}"
         if hour_key not in today_history:
-            print(f"🎯 [발행 시점 도달] 오늘 {current_hour}시 글 발행을 시작합니다 (4대 블로그 동시)!")
+            print(f"🎯 [발행 시점 도달] 오늘 {target_slot}시 슬롯(현재 {current_hour}시 {current_minute}분) 글 발행을 시작합니다 (4대 블로그 동시)!")
             success = run_all_publish()
             if success:
                 today_history.append(hour_key)
                 history[today_str] = today_history
                 save_history(history)
-                print(f"✅ {current_hour}시 한국·일본·미국SaaS·원예 4대 블로그 동시 발행 완료 및 기록 저장 성공!")
+                print(f"✅ {target_slot}시 한국·일본·미국SaaS·원예 4대 블로그 동시 발행 완료 및 기록 저장 성공!")
                 sys.exit(0)
             else:
                 print(f"❌ 글 발행 중 오류 발생")
                 sys.exit(1)
         else:
-            print(f"ℹ️ 오늘 {current_hour}시 글은 이미 정상 발행되었습니다 (중복 방지).")
+            print(f"ℹ️ 오늘 {target_slot}시 글은 이미 정상 발행되었습니다 (중복 방지).")
             sys.exit(0)
     else:
-        print(f"⏳ 현재 시각({current_hour}시 {current_minute}분)은 발행 목표 시간(9시, 12시, 17시, 20시)이 아닙니다. 대기합니다.")
+        print(f"⏳ 현재 시각({current_hour}시 {current_minute}분)은 발행 목표 시간 이전입니다. 대기합니다.")
         sys.exit(0)
 
 
