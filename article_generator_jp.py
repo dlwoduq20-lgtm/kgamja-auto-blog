@@ -12,8 +12,7 @@ from prompt_template_jp import SYSTEM_PROMPT_JP
 
 MODELS = [
     "gemini-3.1-flash-lite",
-    "gemini-2.5-flash-lite",
-    "gemini-3-flash-preview"
+    "gemini-3.8-flash"
 ]
 
 ARCHETYPES_JP = [

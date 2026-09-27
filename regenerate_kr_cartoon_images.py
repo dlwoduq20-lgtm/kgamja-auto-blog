@@ -13,7 +13,7 @@ sys.stdout.reconfigure(encoding='utf-8')
 
 from google.oauth2.credentials import Credentials
 from googleapiclient.discovery import build
-from image_manager_chatgpt import fetch_cartoon_thumbnail_bytes
+from image_card_news import generate_card_news_image
 from blogger_client import upload_image_to_cdn, BLOG_ID_KR
 
 # Load credentials
@@ -51,9 +51,9 @@ def main():
         print(f"📌 제목: {title}")
         print(f"📂 카테고리: {category}")
 
-        # 1. Generate 2D cartoon thumbnail
-        print("🎨 2D 카툰 썸네일 생성 중...")
-        image_bytes = fetch_cartoon_thumbnail_bytes(title, category=category)
+        # 1. Generate 2D Canva card-news thumbnail
+        print("🎨 2D 캔바/카드뉴스 스타일 썸네일 생성 중...")
+        image_bytes = generate_card_news_image(title=title, category=category, palette_index=idx)
         if not image_bytes:
             print("⚠️ 썸네일 생성 실패, 건너뜀")
             continue
@@ -115,7 +115,6 @@ def main():
             results.append({
                 "id": pid,
                 "title": title,
-                "old_url": old_url,
                 "new_url": cdn_url,
                 "status": "success"
             })

@@ -19,52 +19,36 @@ import re
 def upload_image_to_cdn(image_bytes: bytes) -> str:
     """
     Upload image bytes to CDN to obtain a permanent https:// image URL.
-    This enables Blogger's thumbnail engine to immediately extract and display
-    thumbnails on the homepage without requiring manual editor re-saves.
+    Uses FreeImage (iili.io) which is 100% accessible in South Korea (unlike Catbox which is blocked by Korean ISPs).
     """
     if not image_bytes:
         return None
 
-    # 1. Primary: Catbox.moe
+    # 1. Primary: FreeImage.host API (serves via https://iili.io/...)
     for attempt in range(2):
         try:
-            url = "https://catbox.moe/user/api.php"
+            url = "https://freeimage.host/api/1/upload"
+            b64 = base64.b64encode(image_bytes).decode("utf-8")
             res = requests.post(
                 url,
-                data={"reqtype": "fileupload"},
-                files={"fileToUpload": ("illustration.jpg", image_bytes, "image/jpeg")},
-                timeout=20
+                data={
+                    "key": "6d207e02198a847aa98d0a2a901485a5",
+                    "action": "upload",
+                    "source": b64,
+                    "format": "json"
+                },
+                timeout=25
             )
-            if res.status_code == 200 and res.text.strip().startswith("http"):
-                cdn_url = res.text.strip()
-                print(f"✅ Image uploaded to Catbox CDN: {cdn_url}")
-                return cdn_url
+            if res.status_code == 200:
+                data = res.json()
+                img_url = data.get("image", {}).get("url")
+                if img_url:
+                    print(f"✅ Image uploaded to FreeImage CDN: {img_url}")
+                    return img_url
         except Exception as e:
-            print(f"⚠️ Catbox CDN attempt {attempt + 1} failed: {e}")
+            print(f"⚠️ FreeImage CDN attempt {attempt + 1} failed: {e}")
 
-    # 2. Secondary: FreeImage.host public API
-    try:
-        url = "https://freeimage.host/api/1/upload"
-        b64 = base64.b64encode(image_bytes).decode("utf-8")
-        res = requests.post(
-            url,
-            data={
-                "key": "6d207e02198a847aa98d0a2a901485a5",
-                "action": "upload",
-                "source": b64,
-                "format": "json"
-            },
-            timeout=25
-        )
-        if res.status_code == 200:
-            data = res.json()
-            img_url = data.get("image", {}).get("url")
-            if img_url:
-                print(f"✅ Image uploaded to FreeImage CDN: {img_url}")
-                return img_url
-    except Exception as e:
-        print(f"⚠️ FreeImage CDN upload failed: {e}")
-
+    # 2. Secondary fallback: ImgBB / direct raw GitHub
     return None
 
 
