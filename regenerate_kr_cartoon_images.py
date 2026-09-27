@@ -67,22 +67,39 @@ def main():
         print(f"✅ 새 CDN 썸네일 URL: {cdn_url}")
 
         # 3. Replace image in post content
-        img_match = re.search(r'<img[^>]+src=["\']([^"\']+)["\']', content)
-        old_url = None
+        # 3. Replace image in post content and ensure it is placed BEFORE <!--more-->
+        new_img_tag = (
+            f'<div class="separator" style="clear: both; text-align: center; margin: 0 0 25px 0;">\n'
+            f'  <a href="{cdn_url}" style="margin-left: 1em; margin-right: 1em;">\n'
+            f'    <img border="0" data-original-height="800" data-original-width="800" src="{cdn_url}" alt="{title}" '
+            f'style="max-width: 100%; height: auto; border-radius: 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.12); display: inline-block;" />\n'
+            f'  </a>\n'
+            f'</div>\n\n'
+        )
+
+        img_match = re.search(r'(<div[^>]*class=["\']separator["\'][^>]*>.*?</div>|<div[^>]*text-align:\s*center[^>]*>.*?<img[^>]+>.*?</div>|<img[^>]+>)', content, re.S)
         if img_match:
-            old_url = img_match.group(1)
-            updated_content = content.replace(old_url, cdn_url, 1)
-            print(f"🔄 기존 이미지 URL 교체: {old_url[:50]}... -> {cdn_url}")
+            old_img_block = img_match.group(1)
+            # Remove old image block
+            content_no_img = content.replace(old_img_block, '', 1).strip()
+            # Insert new image block at the very top before <!--more-->
+            if "<!--more-->" in content_no_img:
+                updated_content = f"{new_img_tag}{content_no_img}"
+            else:
+                updated_content = f"{new_img_tag}<!--more-->\n{content_no_img}"
+            print(f"🔄 기존 이미지 제거 후 최상단(<!--more--> 이전)에 새 카드뉴스 썸네일 재배치 완료")
         else:
             # If no image tag, insert right after <!--more--> or lead paragraph
             image_html = (
-                f'<div style="text-align: center; margin: 0 0 25px 0;">\n'
-                f'  <img src="{cdn_url}" alt="{title}" '
+                f'<div class="separator" style="clear: both; text-align: center; margin: 0 0 25px 0;">\n'
+                f'  <a href="{cdn_url}" style="margin-left: 1em; margin-right: 1em;">\n'
+                f'    <img border="0" data-original-height="800" data-original-width="800" src="{cdn_url}" alt="{title}" '
                 f'style="max-width: 100%; height: auto; border-radius: 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.12); display: inline-block;" />\n'
+                f'  </a>\n'
                 f'</div>\n\n'
             )
             if "<!--more-->" in content:
-                updated_content = content.replace("<!--more-->", f"<!--more-->\n{image_html}", 1)
+                updated_content = content.replace("<!--more-->", f"{image_html}<!--more-->", 1)
             else:
                 updated_content = image_html + content
             print("➕ 신규 이미지 태그 삽입 완료")

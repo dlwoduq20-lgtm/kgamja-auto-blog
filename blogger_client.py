@@ -24,18 +24,47 @@ def upload_image_to_cdn(image_bytes: bytes) -> str:
     """
     if not image_bytes:
         return None
+
+    # 1. Primary: Catbox.moe
+    for attempt in range(2):
+        try:
+            url = "https://catbox.moe/user/api.php"
+            res = requests.post(
+                url,
+                data={"reqtype": "fileupload"},
+                files={"fileToUpload": ("illustration.jpg", image_bytes, "image/jpeg")},
+                timeout=20
+            )
+            if res.status_code == 200 and res.text.strip().startswith("http"):
+                cdn_url = res.text.strip()
+                print(f"✅ Image uploaded to Catbox CDN: {cdn_url}")
+                return cdn_url
+        except Exception as e:
+            print(f"⚠️ Catbox CDN attempt {attempt + 1} failed: {e}")
+
+    # 2. Secondary: FreeImage.host public API
     try:
-        url = "https://catbox.moe/user/api.php"
+        url = "https://freeimage.host/api/1/upload"
+        b64 = base64.b64encode(image_bytes).decode("utf-8")
         res = requests.post(
             url,
-            data={"reqtype": "fileupload"},
-            files={"fileToUpload": ("illustration.jpg", image_bytes, "image/jpeg")},
-            timeout=15
+            data={
+                "key": "6d207e02198a847aa98d0a2a901485a5",
+                "action": "upload",
+                "source": b64,
+                "format": "json"
+            },
+            timeout=25
         )
-        if res.status_code == 200 and res.text.startswith("http"):
-            return res.text.strip()
+        if res.status_code == 200:
+            data = res.json()
+            img_url = data.get("image", {}).get("url")
+            if img_url:
+                print(f"✅ Image uploaded to FreeImage CDN: {img_url}")
+                return img_url
     except Exception as e:
-        print(f"⚠️ Image CDN upload failed, falling back to base64: {e}")
+        print(f"⚠️ FreeImage CDN upload failed: {e}")
+
     return None
 
 
@@ -90,11 +119,17 @@ def publish_blogger_post(
             img_src = f"data:image/jpeg;base64,{b64_data}"
 
         image_html = (
-            f'<div style="text-align: center; margin: 0 0 25px 0;">\n'
-            f'  <img src="{img_src}" alt="{title}" '
+            f'<div class="separator" style="clear: both; text-align: center; margin: 0 0 25px 0;">\n'
+            f'  <a href="{img_src}" style="margin-left: 1em; margin-right: 1em;">\n'
+            f'    <img border="0" data-original-height="800" data-original-width="800" src="{img_src}" alt="{title}" '
             f'style="max-width: 100%; height: auto; border-radius: 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.12); display: inline-block;" />\n'
+            f'  </a>\n'
             f'</div>\n\n'
         )
+        # CRITICAL FOR BLOGGER THUMBNAILS:
+        # The primary image MUST appear BEFORE the <!--more--> jump-break tag!
+        # If the image is after <!--more-->, Blogger homepage feeds cannot find any image
+        # in the post teaser, resulting in broken/missing thumbnails on initial publish.
         if "<!--more-->" in content_html:
             content_html = image_html + content_html
         else:
@@ -102,9 +137,9 @@ def publish_blogger_post(
             if p_m:
                 lead_p = p_m.group(1)
                 remainder = content_html.replace(lead_p, '', 1)
-                content_html = f"{lead_p}\n<!--more-->\n{image_html}{remainder}"
+                content_html = f"{image_html}{lead_p}\n<!--more-->\n{remainder}"
             else:
-                content_html = image_html + content_html
+                content_html = f"{image_html}<!--more-->\n{content_html}"
 
     body = {
         "kind": "blogger#post",
