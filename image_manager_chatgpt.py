@@ -339,19 +339,30 @@ def fetch_chatgpt_thumbnail_bytes(title: str, language: str = "ko", category: st
 
 def fetch_cartoon_thumbnail_bytes(title: str, category: str = None) -> bytes:
     """
-    Explicit helper to generate 2D Korean cartoon card-news thumbnail bytes.
-    Uses the clean, human-designed Canva layout (reference: media_1790467356308.png)
-    with zero AI artifacts, 100% topic relevance, and varied weekly pastel palettes.
+    Polymorphic Multi-Layout Thumbnail Generator for kgamjablog.
+    Rotates across 5 completely distinct visual layouts:
+    - Editorial Minimal (Dark Slate / WSJ Style)
+    - Document & Stamp (Official Case File / Rubber Stamp)
+    - Fintech Stat Card (Giant Metrics / Numbers)
+    - Photo Duotone & Title Bar (Real Photography Wash)
+    - Modern Card News (Canva Style)
     """
     try:
+        from image_polymorphic import generate_polymorphic_thumbnail
+        img_bytes, layout_used = generate_polymorphic_thumbnail(title=title, category=category or "생활법률")
+        if img_bytes and len(img_bytes) > 1000:
+            print(f"✅ [Polymorphic Engine] Generated '{layout_used}' layout thumbnail ({len(img_bytes)} bytes)!")
+            return img_bytes
+    except Exception as e:
+        print(f"⚠️ [Polymorphic Engine] Error: {e}, falling back to legacy card news...")
+
+    try:
         from image_card_news import generate_card_news_image
-        print(f"🎨 [CardNews Engine] Generating human-designed Canva card-news thumbnail for: '{title}'...")
         card_bytes = generate_card_news_image(title=title, category=category)
         if card_bytes and len(card_bytes) > 1000:
-            print(f"✅ [CardNews Engine] Successfully generated card-news thumbnail ({len(card_bytes)} bytes)!")
             return card_bytes
-    except Exception as e:
-        print(f"⚠️ [CardNews Engine] Error: {e}, falling back...")
+    except Exception:
+        pass
 
     return fetch_chatgpt_thumbnail_bytes(title, language="ko", category=category)
 

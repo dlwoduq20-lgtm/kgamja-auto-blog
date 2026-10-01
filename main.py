@@ -62,7 +62,7 @@ def process_topic(topic: str):
         for r in related:
             print(f"   - {r['title']}")
 
-    print("⏳ Gemini 모델로 1인칭 공감형 칼럼, E-E-A-T 준칙, 동적 소제목, 2D 웹툰 만화 프롬프트 생성 중...")
+    print("⏳ Gemini 모델로 10대 전개 포맷 다형성 및 E-E-A-T 준칙 고품질 글 생성 중...")
     article = generate_article(topic, related_articles=related)
     
     title = article.get("title", topic)
@@ -82,8 +82,8 @@ def process_topic(topic: str):
     print(f"📝 메타 요약 ({len(excerpt)}자): {excerpt}")
     print(f"📊 본문 글자 수: {len(content_html)} 글자")
 
-    # 2. Fetch 2D Cartoon Card-News Thumbnail Bytes
-    print(f"\n🚀 [2/3] 2D 카툰/웹툰 스타일 카드뉴스 썸네일 생성 중...")
+    # 2. Fetch Polymorphic Multi-Layout Thumbnail Bytes
+    print(f"\n🚀 [2/3] 탈(脫) AI 5대 멀티 레이아웃 맞춤형 썸네일 생성 중...")
     image_bytes = fetch_cartoon_thumbnail_bytes(title, category=category)
 
     # Google SEO JSON-LD Schema Markup (BlogPosting & FAQPage)
