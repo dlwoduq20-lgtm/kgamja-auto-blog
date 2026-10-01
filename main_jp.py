@@ -82,9 +82,15 @@ def process_topic_jp(topic: str):
     print(f"📝 メタ要約 ({len(excerpt)}文字): {excerpt}")
     print(f"📊 本文文字数: {len(content_html)} 文字")
 
-    # 2. Fetch 3D Card-News Thumbnail Bytes (ChatGPT DALL-E / 3D Style)
-    print(f"\n🚀 [2/3] 챗GPT(ChatGPT) スタイル 3Dカードニュースサムネイル生成中...")
-    image_bytes = fetch_chatgpt_thumbnail_bytes(title, language="ja", category=category)
+    # 2. Fetch Polymorphic Multi-Layout Thumbnail Bytes
+    print(f"\n🚀 [2/3] 脱AI マルチレイアウトサムネイル生成中 (5大デザイン自動適用)...")
+    try:
+        from image_polymorphic import generate_polymorphic_thumbnail
+        image_bytes, layout_name = generate_polymorphic_thumbnail(title, category=category, language="ja")
+        print(f"✅ [JP Visual Engine] レイアウト '{layout_name}' 適用完了 ({len(image_bytes)} bytes)")
+    except Exception as e:
+        print(f"⚠️ [JP Visual Engine] Fallback: {e}")
+        image_bytes = fetch_chatgpt_thumbnail_bytes(title, language="ja", category=category)
 
     # Google Japan SEO JSON-LD Schema Markup (BlogPosting & FAQPage)
     schema_entities = [

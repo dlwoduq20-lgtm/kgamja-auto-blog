@@ -1,116 +1,183 @@
 '''
-Home & Garden Article Generator using Gemini API
-Generates comprehensive, E-E-A-T rich horticulture guides with embedded pastel vector illustrations.
+Home & Garden Article Generator using Gemini API with 7 Dynamic Horticultural Formats.
+Eliminates rigid repetitive boilerplates and introduces complete botanical diversification.
 '''
 import json
 import re
 import time
-import base64
 import random
 from google import genai
 from google.genai import types
 from config import GEMINI_API_KEY
-from prompt_template_garden import SYSTEM_PROMPT_GARDEN, USER_PROMPT_TEMPLATE_GARDEN
-from image_manager_garden import fetch_garden_image_bytes
+from prompt_template_garden import SYSTEM_PROMPT_GARDEN
 
 MODELS = [
     "gemini-3.1-flash-lite",
     "gemini-3.8-flash"
 ]
 
-ARCHETYPES_GARDEN = [
+EXPANDED_FORMATS_GARDEN = [
+    # 0. Season-by-Season Planting Calendar & Zone Almanac
     {
-        "name": "seasonal_zone_first",
+        "id": "zone_season_calendar",
+        "title": "Zone-by-Zone Seasonal Planting Almanac",
+        "keywords": ["when", "timing", "schedule", "calendar", "spring", "fall", "winter", "summer", "frost"],
         "instruction": (
-            "ARTICLE OUTLINE ARCHETYPE A (Climate Zone & Seasonal Timing First):\n"
-            "1. Engaging problem intro + E-E-A-T note with Last Verified date badge\n"
-            "2. 'Critical Frost Dates & Soil Temp Benchmarks': Zone-by-zone schedule (Zones 4-10)\n"
-            "3. Core Planting & Care Protocols: Sun, deep watering, spacing (Dynamic H2/H3)\n"
-            "4. Responsive HTML <table>: Seed Starting vs Nursery Transplants (Timing, Cost, Success Rate)\n"
-            "5. 'Which Method or Cultivar Fits Your Garden?' Decision Matrix table\n"
-            "6. Troubleshooting common pests/diseases with organic IPM remedies\n"
-            "7. Horticultural FAQ (FAQPage schema)\n"
-            "8. Horticultural Research & Extension Sources (References) section"
+            "【FORMAT: Zone-by-Zone Seasonal Planting Almanac】\n"
+            "Structure as an authoritative planting schedule calibrated across climate zones.\n"
+            "1. Frost Date Benchmarks & Soil Thermometer Thresholds (Zone 4 through Zone 10).\n"
+            "2. Direct Sow vs Indoor Seed Starting Timeline HTML <table> (Zone, Indoor Start Date, Harden Off Window, Harvest Target).\n"
+            "3. Succession Planting Rhythms: Staggering 2-week planting blocks for continuous yield.\n"
+            "4. Late Season Season-Extenders: Low tunnels, floating row covers, and cold frame management.\n"
+            "5. Seasonal Grower's Action Checklist for the upcoming 30 days."
         )
     },
+    # 1. Plant Clinic & Diagnostic Guide
     {
-        "name": "soil_ecology_first",
+        "id": "diagnostic_clinic",
+        "title": "Plant Clinic & Diagnostic Pathology Guide",
+        "keywords": ["yellow", "curling", "leaves", "dying", "disease", "rot", "blight", "spots", "deficiency", "wilting"],
         "instruction": (
-            "ARTICLE OUTLINE ARCHETYPE B (Soil Ecology & Diagnostic Guide First):\n"
-            "1. Engaging problem intro + E-E-A-T note with Last Verified date badge\n"
-            "2. 'Soil Biology, pH, & Drainage': Heavy clay vs sandy loam amendments\n"
-            "3. Diagnostic Breakdown: Nutrient Deficiencies (N-P-K) vs Fungal Blights (Dynamic H2/H3)\n"
-            "4. Responsive HTML <table>: Organic Remedies vs Conventional Interventions (Application, Safety, Cost)\n"
-            "5. 'Which Method or Cultivar Fits Your Garden?' Decision Matrix table\n"
-            "6. Companion planting & natural pollinators\n"
-            "7. Horticultural FAQ (FAQPage schema)\n"
-            "8. Horticultural Research & Extension Sources (References) section"
+            "【FORMAT: Plant Clinic & Diagnostic Pathology Guide】\n"
+            "Structure as a clinical diagnostic teardown for troubled crops.\n"
+            "1. Symptom Triage Matrix: Differentiating overwatering, nitrogen lockout, and fungal blight.\n"
+            "2. Pathogen vs Nutrient Deficiency Diagnostic HTML <table> (Visual Symptom, Underlying Cause, Fast Remedy, Organic Fix).\n"
+            "3. Root Health & Mycorrhizal Soil Ecology: Checking for root rot and anaerobic soil conditions.\n"
+            "4. Safe Emergency Interventions: Foliar kelp spray, hydrogen peroxide drenches, and copper fungicides.\n"
+            "5. Prevention Protocol: Spacing airflow, drip irrigation, and sanitation."
         )
     },
+    # 2. Seed-to-Harvest Step-by-Step Grower's Journal
     {
-        "name": "cultivar_matrix_first",
+        "id": "seed_to_harvest_journal",
+        "title": "Seed-to-Harvest Step-by-Step Grower's Journal",
+        "keywords": ["grow", "how to", "plant", "guide", "care", "harvest", "stages"],
         "instruction": (
-            "ARTICLE OUTLINE ARCHETYPE C (Cultivar Comparison & Space Optimization First):\n"
-            "1. Engaging problem intro + E-E-A-T note with Last Verified date badge\n"
-            "2. 'Top Proven Cultivars': Disease resistance, days to maturity, flavor profiles\n"
-            "3. Small Space & Raised Bed Architecture: Square-foot layout and vertical trellising (Dynamic H2/H3)\n"
-            "4. Comprehensive Cultivar Performance HTML <table> (Variety, Days to Harvest, Zone Fit, Yield)\n"
-            "5. 'Which Method or Cultivar Fits Your Garden?' Decision Matrix table\n"
-            "6. Common cultural mistakes & end-of-season cleanup\n"
-            "7. Horticultural FAQ (FAQPage schema)\n"
-            "8. Horticultural Research & Extension Sources (References) section"
+            "【FORMAT: Seed-to-Harvest Step-by-Step Grower's Journal】\n"
+            "Structure as a chronological cultivation journal from seed sowing to table.\n"
+            "1. Phase 1 (Days 1-14): Seed germination medium, bottom heat, and humidity dome protocols.\n"
+            "2. Phase 2 (Days 15-45): True leaf development, potting up, and organic feeding ratios.\n"
+            "3. Phase 3 (Flowering & Fruit Set): Trellising, pruning suckers, and potassium/phosphorus balance.\n"
+            "4. Growth Stage Milestones HTML <table> (Growth Phase, Days from Sowing, Light/Water Needs, Key Milestone).\n"
+            "5. Peak Harvest Window & Post-Harvest Curing/Storage Guide."
+        )
+    },
+    # 3. Organic IPM Biological Warfare vs Pest Guide
+    {
+        "id": "organic_ipm_battle",
+        "title": "Organic Integrated Pest Management (IPM) Guide",
+        "keywords": ["pest", "bugs", "aphids", "neem", "oil", "spray", "caterpillars", "slugs", "insects", "beetle"],
+        "instruction": (
+            "【FORMAT: Organic Integrated Pest Management (IPM) Guide】\n"
+            "Structure as a biological defense playbook targeting garden invaders.\n"
+            "1. Pest Identification & Action Thresholds: When to intervene vs when nature handles it.\n"
+            "2. Three-Tiered Organic Defense Matrix HTML <table> (Target Pest, Tier 1 Cultural Control, Tier 2 Biological Predators, Tier 3 Organic Spray).\n"
+            "3. Beneficial Insect Habitat: Attracting parasitic wasps, lacewings, and ladybugs with companion flowers.\n"
+            "4. Organic Spray Chemistry & Timing: Applying neem, spinosad, and insecticidal soap without scorching foliage or harming bees.\n"
+            "5. Post-Infestation Soil Rehabilitation."
+        )
+    },
+    # 4. Cultivar Showdown & Harvest Yield Benchmarks
+    {
+        "id": "cultivar_taste_trial",
+        "title": "Cultivar Showdown & Yield Benchmarks",
+        "keywords": ["best", "varieties", "cultivars", "types", "heirloom", "hybrid", "flavor", "yield"],
+        "instruction": (
+            "【FORMAT: Cultivar Showdown & Yield Benchmarks】\n"
+            "Structure as a trial garden evaluation comparing top performing varieties.\n"
+            "1. Heirloom vs Hybrid Dilemma: Disease resistance vs unmatched vintage flavor.\n"
+            "2. 5-7 Cultivar Benchmark HTML <table> (Variety, Days to Maturity, Disease Resistance Codes, Flavor Profile, Yield/Plant).\n"
+            "3. Microclimate Matching: Cultivars bred for high heat/humidity vs cool northern short seasons.\n"
+            "4. Seed Saving Viability: Open-pollinated true-to-type harvesting protocols.\n"
+            "5. Grower's Recommendation Verdict for different backyard setups."
+        )
+    },
+    # 5. Soil Science, Living Compost & Biochar Teardown
+    {
+        "id": "soil_microbiome_alchemy",
+        "title": "Soil Science & Living Compost Teardown",
+        "keywords": ["soil", "compost", "amendment", "fertilizer", "clay", "sand", "ph", "organic matter", "mulch"],
+        "instruction": (
+            "【FORMAT: Soil Science & Living Compost Teardown】\n"
+            "Structure as a field soil biology handbook for converting dead dirt into rich living soil.\n"
+            "1. Soil Texture Fingerprinting: The jar test for sand, silt, and heavy clay proportions.\n"
+            "2. Amendment Chemistry HTML <table> (Soil Challenge, Organic Amendment, Application Rate/100 sq ft, Optimal Soil pH Range).\n"
+            "3. The Hot Compost Recipe: Carbon-to-nitrogen ratios (30:1), internal thermophilic pile temps, and turning schedules.\n"
+            "4. Mycorrhizae & Biochar Inoculation: Building permanent microbial sponges.\n"
+            "5. Fall Soil Building & Cover Crop Strategies."
+        )
+    },
+    # 6. Micro-Gardening & Small Space Architecture
+    {
+        "id": "small_space_blueprint",
+        "title": "Small-Space & Raised Bed Architecture",
+        "keywords": ["container", "pot", "small", "raised bed", "patio", "balcony", "indoor", "space"],
+        "instruction": (
+            "【FORMAT: Small-Space & Raised Bed Architecture】\n"
+            "Structure as an intensive high-yield blueprint for urban lots and small yards.\n"
+            "1. Vertical Architecture: A-frame trellises, cattle panel arches, and wall planters.\n"
+            "2. Container Volume & Soil Mix Matrix HTML <table> (Crop, Minimum Pot Gallons, Soil Depth, Trellis Required, Yield Expectation).\n"
+            "3. Self-Watering Sub-Irrigated Planters (SIPs) & Drip Automation for small footprints.\n"
+            "4. Interplanting & Square Foot Density: Maximizing every square inch without nutrient starvation.\n"
+            "5. Seasonal Rotation for Container Gardens."
         )
     }
 ]
 
 
-def generate_article_garden(keyword: str, topic_angle: str = "", avoid_topics: list = None, competitor_urls: str = "None", related_articles: list = None) -> dict:
+def select_format_garden(topic: str) -> dict:
+    topic_lower = topic.lower()
+    scored = []
+    for fmt in EXPANDED_FORMATS_GARDEN:
+        score = sum(1 for kw in fmt["keywords"] if kw.lower() in topic_lower)
+        if score > 0:
+            scored.append((score, fmt))
+    if scored:
+        scored.sort(key=lambda x: x[0], reverse=True)
+        return scored[0][1]
+    h_idx = sum(ord(c) for c in topic) % len(EXPANDED_FORMATS_GARDEN)
+    return EXPANDED_FORMATS_GARDEN[h_idx]
+
+
+def generate_article_garden(keyword: str, topic: str = "", related_articles: list = None) -> dict:
     '''
-    Generate a complete SEO-optimized Home & Garden article with images, schema markup,
-    decision matrix, sources section, and structural archetype diversity.
+    Generate an in-depth home horticulture guide with dynamic growing formats,
+    zero boilerplate, and deep field-tested E-E-A-T.
     '''
     if not GEMINI_API_KEY:
         raise ValueError("GEMINI_API_KEY is not set.")
 
-    archetype = random.choice(ARCHETYPES_GARDEN)
+    full_subject = f"{keyword}: {topic}" if topic else keyword
+    selected_format = select_format_garden(full_subject)
+    print(f"📖 [Selected Format (Garden)] '{selected_format['title']}' (ID: {selected_format['id']})")
+
     client = genai.Client(api_key=GEMINI_API_KEY)
-    avoid_str = ", ".join(avoid_topics) if avoid_topics else "None"
 
     links_text = ""
     if related_articles:
-        links_text = "\n\n[INTERNAL LINKING CANDIDATES]\n" + "\n".join(
+        links_text = "\n[Contextual Internal Linking Candidates]\n" + "\n".join(
             [f"- Guide: '{a.get('title')}' -> URL: {a.get('url')}" for a in related_articles[:3]]
-        ) + "\nSeamlessly embed 1 or 2 contextual internal links into appropriate sections using <a href='URL'>Title</a>.\n"
+        ) + "\nNaturally link to 1-2 candidate articles where contextually relevant.\n"
 
-    base_prompt = (
-        USER_PROMPT_TEMPLATE_GARDEN
-        .replace("{KEYWORD}", keyword)
-        .replace("{TOPIC}", topic_angle or f"Complete practical guide to {keyword} for home gardeners")
-        .replace("{COMPETITOR_URLS}", competitor_urls)
-        .replace("{AVOID_TOPICS}", avoid_str)
-    )
-
-    formatted_user_prompt = (
-        f"{base_prompt}\n\n"
-        f"[STRUCTURAL ARCHETYPE DIRECTIVE]\n"
-        f"Apply {archetype['instruction']}\n\n"
-        f"MANDATORY RIGOR RULES:\n"
-        f"1. ❌ Strictly ban exaggerated hype ('miracle harvest', 'guaranteed foolproof yield', etc.). Provide realistic constraints.\n"
-        f"2. Insert the E-E-A-T Callout Box with 'Last Verified: September 18, 2026' immediately following the introduction.\n"
-        f"3. Include both a comparative <table> and a scenario-based 'Which Method or Cultivar Fits Your Garden? (Decision Matrix)' table.\n"
-        f"4. End the post with the dedicated 'Horticultural Research & Extension Sources (References)' section.{links_text}"
+    user_prompt = (
+        f"Write a masterclass gardening guide for GreenThumb Garden targeting:\n"
+        f"Subject: {full_subject}\n\n"
+        f"【ASSIGNED HORTICULTURAL FORMAT】\n"
+        f"{selected_format['instruction']}\n\n"
+        f"CORE REQUIREMENTS:\n"
+        f"1. Zero generic fluff (no 'nature's miracle', 'a green thumb is all you need', 'fast-paced world').\n"
+        f"2. 🚫 NO mechanical fixed Extension badges or boilerplate grey sources boxes. Integrate USDA zones, soil temps, and extension science organically.\n"
+        f"3. Must include at least 1 comprehensive responsive HTML <table>.\n"
+        f"4. Length: Thorough, practical grower's manual (1,800+ words).{links_text}"
     )
 
     last_error = None
-    data = None
-
     for model_name in MODELS:
         for attempt in range(2):
             try:
-                print(f"[AI Writer] Calling {model_name} for '{keyword}'...")
                 response = client.models.generate_content(
                     model=model_name,
-                    contents=formatted_user_prompt,
+                    contents=user_prompt,
                     config=types.GenerateContentConfig(
                         system_instruction=SYSTEM_PROMPT_GARDEN,
                         temperature=0.7,
@@ -121,114 +188,19 @@ def generate_article_garden(keyword: str, topic_angle: str = "", avoid_topics: l
                 raw_text = response.text.strip()
                 try:
                     data = json.loads(raw_text)
-                    break
                 except Exception:
                     json_match = re.search(r'\{.*\}', raw_text, re.DOTALL)
                     if json_match:
                         data = json.loads(json_match.group(0))
-                        break
-                    raise ValueError("Invalid JSON response from model")
+                    else:
+                        raise ValueError("Invalid JSON response from model")
+
+                data["format_id"] = selected_format["id"]
+                return data
 
             except Exception as e:
                 last_error = e
-                print(f"⚠️ {model_name} (Attempt {attempt+1}) temporary error: {e}. Retrying...")
+                print(f"⚠️ {model_name} (Attempt {attempt+1}) error: {e}. Retrying...")
                 time.sleep(2)
 
-        if data:
-            break
-
-    if not data:
-        raise RuntimeError(f"All models failed to generate Garden article: {last_error}")
-
-    # Process and embed pastel vector illustrations
-    images_spec = data.get("images", [])
-    content_html = data.get("content_html") or ""
-    if not content_html and data.get("body_markdown"):
-        try:
-            import markdown
-            content_html = markdown.markdown(data.get("body_markdown"), extensions=['tables', 'nl2br'])
-        except Exception as e:
-            print(f"⚠️ Markdown conversion warning: {e}")
-            content_html = data.get("body_markdown")
-
-    h1_title = data.get("h1", keyword)
-    hero_bytes = None
-
-    print(f"\n🎨 [Illustrations] Generating style-locked pastel illustrations (Total: {len(images_spec)} planned)...", flush=True)
-
-    # Generate images (limit to primary hero + 1-2 body images for optimal speed and reliability)
-    embedded_count = 0
-    for idx, img_info in enumerate(images_spec[:3]):
-        gen_prompt = img_info.get("generation_prompt") or f"{keyword} gardening illustration"
-        placement_h2 = img_info.get("placement", "")
-        alt_text = img_info.get("alt_text", f"{keyword} guide illustration")
-        caption = img_info.get("caption") or ""
-
-        print(f"   [{idx+1}/{min(3, len(images_spec))}] Generating image for: {img_info.get('purpose', 'guide')}...")
-        img_bytes = fetch_garden_image_bytes(gen_prompt)
-
-        if not img_bytes:
-            continue
-
-        if idx == 0:
-            hero_bytes = img_bytes
-
-        b64_str = base64.b64encode(img_bytes).decode('utf-8')
-        caption_html = f'<p style="color: #666; font-size: 13px; margin-top: 8px; text-align: center; font-style: italic;">▲ {caption}</p>' if caption else ''
-        img_block = (
-            f'\n<div style="text-align: center; margin: 32px auto; max-width: 720px;">\n'
-            f'  <img src="data:image/jpeg;base64,{b64_str}" alt="{alt_text}" '
-            f'style="width: 100%; height: auto; border-radius: 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.08);" />\n'
-            f'  {caption_html}\n'
-            f'</div>\n'
-        )
-
-        # Place after relevant H2 if found, else prepend or append
-        if placement_h2 and placement_h2.lower() in content_html.lower():
-            # Find the closing </h2> tag corresponding to placement_h2
-            pattern = re.compile(rf'(<h2[^>]*>.*?{re.escape(placement_h2)}.*?</h2>)', re.IGNORECASE)
-            if pattern.search(content_html):
-                content_html = pattern.sub(rf'\1\n{img_block}', content_html, count=1)
-                embedded_count += 1
-                continue
-
-        # If placement not matched or it is the hero image, prepend to content
-        if idx == 0 and img_block not in content_html:
-            content_html = img_block + content_html
-            embedded_count += 1
-
-    # Inject FAQ Schema Markup
-    faq_schema_items = data.get("faq_schema", [])
-    if faq_schema_items:
-        faq_ld = {
-            "@context": "https://schema.org",
-            "@type": "FAQPage",
-            "mainEntity": [
-                {
-                    "@type": "Question",
-                    "name": item.get("question", ""),
-                    "acceptedAnswer": {
-                        "@type": "Answer",
-                        "text": item.get("answer", "")
-                    }
-                } for item in faq_schema_items if item.get("question") and item.get("answer")
-            ]
-        }
-        content_html += f'\n<script type="application/ld+json">\n{json.dumps(faq_ld, ensure_ascii=False, indent=2)}\n</script>\n'
-
-    # Inject BlogPosting Schema Markup
-    meta_desc = data.get("meta_description", "")
-    blog_schema = {
-        "@context": "https://schema.org",
-        "@type": "BlogPosting",
-        "headline": h1_title,
-        "description": meta_desc,
-        "articleSection": data.get("category", "Home & Garden"),
-        "keywords": data.get("lsi_keywords", []) + data.get("tags", []),
-        "mainEntityOfPage": {"@type": "WebPage"}
-    }
-    content_html += f'\n<script type="application/ld+json">\n{json.dumps(blog_schema, ensure_ascii=False, indent=2)}\n</script>\n'
-
-    data["content_html"] = content_html
-    data["hero_bytes"] = hero_bytes
-    return data
+    raise RuntimeError(f"All models failed to generate Garden article: {last_error}")
