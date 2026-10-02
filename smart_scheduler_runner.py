@@ -53,7 +53,16 @@ def run_all_publish():
     return res_kr.returncode == 0 and res_jp.returncode == 0 and res_us.returncode == 0 and res_garden.returncode == 0
 
 
+# Master Killswitch flag (set to False when resuming)
+AUTO_PUBLISH_PAUSED = True
+
+
 def main():
+    if AUTO_PUBLISH_PAUSED and "--ignore-pause" not in sys.argv:
+        print("🛑 [알림] 자동 발행이 사용자에 의해 일시 중지(PAUSED)되었습니다.")
+        print("   AdSense 리젝 대응 및 콘텐츠 정비를 위해 스케줄러가 동작하지 않습니다.")
+        sys.exit(0)
+
     force_run = os.environ.get("GITHUB_EVENT_NAME") == "workflow_dispatch" or "--force" in sys.argv
 
     utc_now = datetime.now(timezone.utc)
