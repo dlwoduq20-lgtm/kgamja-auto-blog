@@ -139,7 +139,14 @@ def select_format_garden(topic: str) -> dict:
     return EXPANDED_FORMATS_GARDEN[h_idx]
 
 
-def generate_article_garden(keyword: str, topic: str = "", related_articles: list = None) -> dict:
+def generate_article_garden(
+    keyword: str,
+    topic_angle: str = "",
+    topic: str = "",
+    avoid_topics: list = None,
+    related_articles: list = None,
+    **kwargs
+) -> dict:
     '''
     Generate an in-depth home horticulture guide with dynamic growing formats,
     zero boilerplate, and deep field-tested E-E-A-T.
@@ -147,7 +154,10 @@ def generate_article_garden(keyword: str, topic: str = "", related_articles: lis
     if not GEMINI_API_KEY:
         raise ValueError("GEMINI_API_KEY is not set.")
 
-    full_subject = f"{keyword}: {topic}" if topic else keyword
+    full_subject = topic_angle or topic or keyword
+    if keyword and keyword.lower() not in full_subject.lower():
+        full_subject = f"{keyword}: {full_subject}"
+
     selected_format = select_format_garden(full_subject)
     print(f"📖 [Selected Format (Garden)] '{selected_format['title']}' (ID: {selected_format['id']})")
 
@@ -196,6 +206,20 @@ def generate_article_garden(keyword: str, topic: str = "", related_articles: lis
                         raise ValueError("Invalid JSON response from model")
 
                 data["format_id"] = selected_format["id"]
+                data["h1"] = data.get("h1") or data.get("title", keyword)
+                data["meta_title"] = data.get("meta_title") or data.get("title", keyword)
+                data["meta_description"] = data.get("meta_description") or data.get("excerpt", "")
+
+                # Fetch hero illustration bytes
+                try:
+                    from image_manager_garden import fetch_garden_image_bytes
+                    img_prompt = data.get("image_prompt_en", f"{keyword} organic garden illustration")
+                    hero_bytes = fetch_garden_image_bytes(img_prompt)
+                    data["hero_bytes"] = hero_bytes
+                except Exception as e:
+                    print(f"⚠️ [Garden Hero Image] Error: {e}")
+                    data["hero_bytes"] = None
+
                 return data
 
             except Exception as e:

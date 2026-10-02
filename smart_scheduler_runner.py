@@ -50,7 +50,7 @@ def run_all_publish():
     print("\n🌱 [Home & Garden 원예/농업 블로그 발행 시작]")
     res_garden = subprocess.run([sys.executable, "main_garden.py", "--next"])
 
-    return res_kr.returncode == 0 or res_jp.returncode == 0 or res_us.returncode == 0 or res_garden.returncode == 0
+    return res_kr.returncode == 0 and res_jp.returncode == 0 and res_us.returncode == 0 and res_garden.returncode == 0
 
 
 def main():

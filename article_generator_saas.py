@@ -108,7 +108,13 @@ def select_format_saas(topic: str) -> dict:
     return EXPANDED_FORMATS_SAAS[h_idx]
 
 
-def generate_article_saas(keyword: str, topic: str = "", related_articles: list = None) -> dict:
+def generate_article_saas(
+    keyword: str,
+    topic_angle: str = "",
+    topic: str = "",
+    related_articles: list = None,
+    **kwargs
+) -> dict:
     '''
     Generate an in-depth B2B SaaS evaluation article with dynamic review formats,
     zero boilerplate, and deep empirical rigor.
@@ -116,7 +122,10 @@ def generate_article_saas(keyword: str, topic: str = "", related_articles: list 
     if not GEMINI_API_KEY:
         raise ValueError("GEMINI_API_KEY is not set.")
 
-    full_subject = f"{keyword}: {topic}" if topic else keyword
+    full_subject = topic_angle or topic or keyword
+    if keyword and keyword.lower() not in full_subject.lower():
+        full_subject = f"{keyword}: {full_subject}"
+
     selected_format = select_format_saas(full_subject)
     print(f"📖 [Selected Format (SaaS)] '{selected_format['title']}' (ID: {selected_format['id']})")
 
@@ -165,6 +174,9 @@ def generate_article_saas(keyword: str, topic: str = "", related_articles: list 
                         raise ValueError("Invalid JSON response from model")
 
                 data["format_id"] = selected_format["id"]
+                data["h1"] = data.get("h1") or data.get("title", keyword)
+                data["meta_title"] = data.get("meta_title") or data.get("title", keyword)
+                data["meta_description"] = data.get("meta_description") or data.get("excerpt", "")
                 return data
 
             except Exception as e:

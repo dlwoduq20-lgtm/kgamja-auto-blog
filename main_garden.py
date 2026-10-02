@@ -102,7 +102,7 @@ def process_topic_garden(keyword: str, topic_angle: str = "", queue=None):
         title=h1,
         content_html=content_html,
         labels=tags,
-        image_bytes=None,  # Base64 images are already embedded into content_html
+        image_bytes=article.get("hero_bytes"),
         blog_id=BLOG_ID_GARDEN
     )
 
