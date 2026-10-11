@@ -2,53 +2,70 @@
 Google Blogger API v3 Client for kgamjablog & seikatsulaw
 """
 import os
+import sys
 import json
 import base64
+import requests
+import re
 from google.oauth2.credentials import Credentials
 from googleapiclient.discovery import build
+
+try:
+    sys.stdout.reconfigure(encoding='utf-8')
+    sys.stderr.reconfigure(encoding='utf-8')
+except Exception:
+    pass
 
 BLOG_ID_KR = "3888865366756619756"
 BLOG_ID_JP = "4884263507030240234"
 SCOPES = ["https://www.googleapis.com/auth/blogger"]
 
 
-import requests
-import re
-
-
 def upload_image_to_cdn(image_bytes: bytes) -> str:
     """
     Upload image bytes to CDN to obtain a permanent https:// image URL.
-    Uses FreeImage (iili.io) which is 100% accessible in South Korea (unlike Catbox which is blocked by Korean ISPs).
+    Tries Catbox CDN and Git-hosted raw CDN.
     """
     if not image_bytes:
         return None
 
-    # 1. Primary: FreeImage.host API (serves via https://iili.io/...)
-    for attempt in range(2):
-        try:
-            url = "https://freeimage.host/api/1/upload"
-            b64 = base64.b64encode(image_bytes).decode("utf-8")
-            res = requests.post(
-                url,
-                data={
-                    "key": "6d207e02198a847aa98d0a2a901485a5",
-                    "action": "upload",
-                    "source": b64,
-                    "format": "json"
-                },
-                timeout=25
-            )
-            if res.status_code == 200:
-                data = res.json()
-                img_url = data.get("image", {}).get("url")
-                if img_url:
-                    print(f"✅ Image uploaded to FreeImage CDN: {img_url}")
-                    return img_url
-        except Exception as e:
-            print(f"⚠️ FreeImage CDN attempt {attempt + 1} failed: {e}")
+    # 1. Catbox CDN
+    try:
+        res = requests.post(
+            "https://catbox.moe/user/api.php",
+            data={"reqtype": "fileupload"},
+            files={"fileToUpload": ("thumb.jpg", image_bytes, "image/jpeg")},
+            timeout=20
+        )
+        if res.status_code == 200 and res.text.strip().startswith("https://"):
+            cdn_url = res.text.strip()
+            print(f"✅ Image uploaded to Catbox CDN: {cdn_url}")
+            return cdn_url
+    except Exception as e:
+        print(f"⚠️ Catbox CDN failed: {e}")
 
-    # 2. Secondary fallback: ImgBB / direct raw GitHub
+    # 2. Local Save & GitHub Raw CDN fallback
+    try:
+        import hashlib
+        import subprocess
+        img_hash = hashlib.md5(image_bytes).hexdigest()[:12]
+        thumb_dir = os.path.join(os.path.dirname(__file__), "images", "thumbnails")
+        os.makedirs(thumb_dir, exist_ok=True)
+        thumb_path = os.path.join(thumb_dir, f"thumb_{img_hash}.jpg")
+        with open(thumb_path, "wb") as f:
+            f.write(image_bytes)
+        try:
+            subprocess.run(["git", "add", thumb_path], check=False, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            subprocess.run(["git", "commit", "-m", f"chore: add thumbnail thumb_{img_hash}.jpg"], check=False, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            subprocess.run(["git", "push", "origin", "main"], check=False, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        except Exception:
+            pass
+        raw_url = f"https://raw.githubusercontent.com/dlwoduq20-lgtm/kgamja-auto-blog/main/images/thumbnails/thumb_{img_hash}.jpg"
+        print(f"✅ Image saved and referenced via GitHub CDN: {raw_url}")
+        return raw_url
+    except Exception as e:
+        print(f"⚠️ GitHub Raw fallback failed: {e}")
+
     return None
 
 
