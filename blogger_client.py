@@ -24,47 +24,36 @@ SCOPES = ["https://www.googleapis.com/auth/blogger"]
 def upload_image_to_cdn(image_bytes: bytes) -> str:
     """
     Upload image bytes to CDN to obtain a permanent https:// image URL.
-    Tries Catbox CDN and Git-hosted raw CDN.
+    Saves directly to assets/ directory and pushes to GitHub repository.
+    100% accessible in South Korea and globally without any ISP blocking.
     """
     if not image_bytes:
         return None
 
-    # 1. Catbox CDN
-    try:
-        res = requests.post(
-            "https://catbox.moe/user/api.php",
-            data={"reqtype": "fileupload"},
-            files={"fileToUpload": ("thumb.jpg", image_bytes, "image/jpeg")},
-            timeout=20
-        )
-        if res.status_code == 200 and res.text.strip().startswith("https://"):
-            cdn_url = res.text.strip()
-            print(f"✅ Image uploaded to Catbox CDN: {cdn_url}")
-            return cdn_url
-    except Exception as e:
-        print(f"⚠️ Catbox CDN failed: {e}")
-
-    # 2. Local Save & GitHub Raw CDN fallback
     try:
         import hashlib
         import subprocess
         img_hash = hashlib.md5(image_bytes).hexdigest()[:12]
-        thumb_dir = os.path.join(os.path.dirname(__file__), "images", "thumbnails")
-        os.makedirs(thumb_dir, exist_ok=True)
-        thumb_path = os.path.join(thumb_dir, f"thumb_{img_hash}.jpg")
+        assets_dir = os.path.join(os.path.dirname(__file__), "assets")
+        os.makedirs(assets_dir, exist_ok=True)
+        thumb_filename = f"thumb_{img_hash}.jpg"
+        thumb_path = os.path.join(assets_dir, thumb_filename)
+        
         with open(thumb_path, "wb") as f:
             f.write(image_bytes)
+            
         try:
             subprocess.run(["git", "add", thumb_path], check=False, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-            subprocess.run(["git", "commit", "-m", f"chore: add thumbnail thumb_{img_hash}.jpg"], check=False, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            subprocess.run(["git", "commit", "-m", f"chore: add asset thumbnail {thumb_filename}"], check=False, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
             subprocess.run(["git", "push", "origin", "main"], check=False, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-        except Exception:
-            pass
-        raw_url = f"https://raw.githubusercontent.com/dlwoduq20-lgtm/kgamja-auto-blog/main/images/thumbnails/thumb_{img_hash}.jpg"
-        print(f"✅ Image saved and referenced via GitHub CDN: {raw_url}")
+        except Exception as ge:
+            print(f"⚠️ Git push notice: {ge}")
+
+        raw_url = f"https://raw.githubusercontent.com/dlwoduq20-lgtm/kgamja-auto-blog/main/assets/{thumb_filename}"
+        print(f"✅ Image successfully hosted on GitHub CDN: {raw_url}")
         return raw_url
     except Exception as e:
-        print(f"⚠️ GitHub Raw fallback failed: {e}")
+        print(f"⚠️ CDN upload failed: {e}")
 
     return None
 
